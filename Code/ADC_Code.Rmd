@@ -9,14 +9,56 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-
+## Set up your system
 
 ```{r}
 
+# load packages
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
 
+# set working directory
+setwd("~/Duke/Year 2/Spring 2019/Data Analytics/ADC_Analysis/Code")
+
+#check wd
+getwd()
+
+# create ggplot theme
+SKotheme <- theme_gray(base_size = 15) +
+  theme(axis.text = element_text(color = "black"), 
+        legend.position = "right", 
+        plot.title = element_text(hjust = 0.5))
+
+# set ggplot theme
+theme_set(SKotheme)
 
 ```
 
+## Import & Explore
 
+```{r}
+
+# import dataset
+ADC_raw <- read.csv("../Raw_Data/CalRecycle_ADC_raw.csv")
+
+# explore dataset
+view(ADC_raw)
+class(ADC_raw)
+colnames(ADC_raw)
+dim(ADC_raw)
+
+# per the CalRecycle website, segregation into ADC types started in 1998
+# therefore, for the analysis, remove data from before 1998
+class(ADC_raw$Report.Year)
+ADC_data <- filter(ADC_raw, Report.Year >= 1998)
+dim(ADC_data)
+
+# explore new dataset
+head(ADC_data)
+tail(ADC_data)
+
+# generate summary information
+
+
+```

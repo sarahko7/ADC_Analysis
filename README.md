@@ -13,11 +13,13 @@ From the URL page, the following selection was made:
 * Export to Excel
 
 The file was then converted to a CSV file with the following actions: 
-* file > save as > select file type 'CSV UTF-8 (Comma delimited)(*.csv)'
+* file > save as > select file type 'CSV (Comma delimited)(*.csv)'
 
 Data were accessed 2019-04-06 (April 6, 2019).
 
 ## Data Content Information
+The quantities of ADC are reported in units of U.S. tons, which is equivalent to 2000 lbs. 
+
 From the CalRecycle site: 
 
 ### Statewide Alternative Daily Cover (ADC) by Material Type
