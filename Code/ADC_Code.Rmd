@@ -3,6 +3,9 @@ title: "ADC_Code"
 author: "Sarah Ko"
 date: "April 7, 2019"
 output: pdf_document
+geometry: margin=2.54cm
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -58,7 +61,76 @@ dim(ADC_data)
 head(ADC_data)
 tail(ADC_data)
 
-# generate summary information
+# tidy the data by gathering the type columns
+ADC_gathered <- gather(ADC_data, "Type", "Quantity", Ash:Sludge) %>%
+  select(-Total) # remove Total column
 
+# save the tidy dataset
+write.csv(ADC_data, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_tidy_processed.csv")
+
+# generate summary data
+ADC_summary_by_type <- ADC_gathered %>%
+  group_by(Type) %>% # group the data by lakename
+  filter(!is.na(Quantity)) %>% #remove the records when there are nas Quantity
+  summarise(MeanQuarterlyQuantity = mean(Quantity), 
+            MinQuarterlyQuantity = min(Quantity), 
+            MaxQuarterlyQuantity = max(Quantity), 
+            sdQuarterlyQuantity = sd(Quantity), 
+            medianQuarterlyQuantity = median(Quantity))
+
+ADC_summary_by_year <- ADC_gathered %>%
+  group_by(Report.Year) %>% # group the data by year
+  filter(!is.na(Quantity)) %>% #remove the records when there are nas Quantity
+  summarise(MeanQuarterlyQuantity = mean(Quantity), 
+            MinQuarterlyQuantity = min(Quantity), 
+            MaxQuarterlyQuantity = max(Quantity), 
+            sdQuarterlyQuantity = sd(Quantity), 
+            medianQuarterlyQuantity = median(Quantity))
 
 ```
+
+## Create Graphs
+
+```{r}
+
+#SKO: update columns names!!
+
+# Graph 1: for 2017 data, display total by type
+total_bytype_2017 <- ADC_gathered %>%
+  filter(Report.Year == 2017) %>%
+  group_by(Type) %>%
+  summarize(Quantity = sum(Quantity))
+
+# convert column Type into factor
+class(total_bytype_2017$Type)
+total_bytype_2017$Type <- as.factor(total_bytype_2017$Type)
+
+# plot as a bar chart
+total_bytype_2017_plot <- 
+    ggplot(data=total_bytype_2017, aes(x=Type, y=Quantity)) +
+    geom_bar(stat="identity") + 
+    xlab("Type") +
+    ylab("Quantity (US Tons)") +
+    ggtitle("2017 Quantities of ADC by Type") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(total_bytype_2017_plot)
+
+# Graph 2: faceted by Type, display spread of quarterly values by year
+quarterlyvalues_byyear_plot <- ggplot(ADC_gathered) +
+  geom_boxplot(aes(x = Report.Year, y = Quantity, group = Report.Year)) + 
+  facet_wrap(vars(Type), nrow = 5) + 
+  xlab("Year") +
+  ylab("Quantity (US Tons)") +
+  ggtitle("Seasonal Quantities of ADC, Grouped by Year")
+print(quarterlyvalues_byyear_plot)
+
+# Graph 3: display data by quarter, all Types on same plot
+quarterlyvalues_alltypes_plot <- 
+  ggplot(ADC_gathered) + 
+  geom_point(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year)))
+print(quarterlyvalues_alltypes_plot)
+##SKO group values under legend
+
+```
+
+## Statistical Modeling
