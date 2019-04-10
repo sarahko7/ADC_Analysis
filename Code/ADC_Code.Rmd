@@ -276,7 +276,16 @@ Is there a changepoint in the Construction & Demolition quantities over time?
 
 ```{r}
 
-# create ts for ADC_data
+# check normality for C&D waste specifically
+shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
+
+ggplot(CD_only) +
+  geom_histogram(aes(x = Construction.and.Demolition.Waste))
+
+qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
+# since sample size is small, and totals of all types was non-normal, will use non-parametric test for changepoint analysis
+
+# create dataframe with dates
 quarters_to_dates$Quarter <- as.integer(quarters_to_dates$Quarter)
 
 CD_only <- ADC_data %>% 
@@ -319,15 +328,18 @@ changepoint2 <- CD_only$Quarter.End.Date[68] # between Q4 2014 & Q1 2015 = ~ 201
 # Add vertical lines to the original graph to represent change points
 CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
   geom_point() +
-  geom_vline(aes(xintercept=as.Date('2008-02-14')), linetype=2, colour="red", size=1) +
+  geom_vline(aes(xintercept=as.Date('2008-02-14')), linetype=2, colour="purple", size=1) +
   geom_vline(aes(xintercept=as.Date('2015-02-14')), linetype=4, colour="blue", size=1) + 
-  geom_text(x=as.Date('2009-09-1'), y=260000, label=stringr::str_wrap('breakpoint1: Q4,2007-Q1,2008', 15), colour="red", size=5) +
-  geom_text(x=as.Date('2016-09-1'), y=260000, label=stringr::str_wrap('breakpoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
-  xlab('End of Report Quarter') + 
+  geom_text(x=as.Date('2010-1-1'), y=260000, label=stringr::str_wrap('changepoint1: Q4,2007-Q1,2008', 15), colour="purple", size=5) +
+  geom_text(x=as.Date('2017-1-1'), y=260000, label=stringr::str_wrap('changepoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
+  xlab('') +
   ylab('C&D Cover (U.S. Tons)') + 
   scale_y_continuous(labels = scales::comma) + 
-  ggtitle('Construction & Demolition Daily Cover in CA')
+  ggtitle('Construction & Demolition Landfill Cover in CA')
 print(CD_plot_changepoints)  
+
+##SKO save figures
+ggsave("CD_plot_changepoints.pdf", CD_plot_changepoints, path = "../Output/CD_plot_changepoints.pdf")
 
 ```
 
@@ -338,18 +350,8 @@ CD_as_ts <- ts(CD_only$Quarter.End.Date, start =1998-03-31, end =2017-12-31, fre
 
 smk.test(ts(CD_as_ts[1:39], start =1998-03-31, end =2007-09-30, frequency = 4)) # p-value = 3.573e-05 inferring that there is monotonic trend over time with reporting season
 smk.test(ts(CD_as_ts[40:80], start =2007-12-31, end =2017-12-31, frequency = 4))
+SKO: decided not to use bc the fractions were smaller & smaller as you check changepoints, making the sample size smaller, which is worse for Mann-Kendall
 
-----
+---
 
-# Add vertical lines to the original graph to represent change points
-CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
-  geom_point() +
-  geom_vline(aes(xintercept=as.numeric(Quarter.End.Date[c(40)])), linetype=2, colour="blue", size=1) +
-  geom_vline(aes(xintercept=as.numeric(Quarter.End.Date[c(68)])), linetype=2, colour="blue", size=1) + 
-  xlab('End of Report Quarter') + 
-  ylab('C&D Cover (U.S. Tons)') + 
-  scale_y_continuous(labels = scales::comma) + 
-  ggtitle('Construction & Demolition Daily Cover in CA')
-print(CD_plot_changepoints)  
-##SKO: add dates as text
-##check LEED
+height = 4, width = 6, units = "in", dpi = 300
