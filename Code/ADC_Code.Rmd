@@ -255,6 +255,7 @@ ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
   geom_abline(intercept = -190264.58, slope = 73.14) + 
   geom_point()
 # visually, model does not appear to be a great fit
+##SKO: make it pretty
 
 # try Mann-Kendall non-parametric test to detect monotonic trends (H0: there is no trend)
 total_oldest_to_newest <- ADC_fulldate %>%
@@ -284,14 +285,71 @@ CD_only <- ADC_data %>%
   unite('Quarter.End.Date', c(Report.Year, Month.Date), sep = "-") %>%
   select(-Report.Quarter)
 
-CD_only$Quarter.End.Date <- as.Date(CD_only$Quarter.End.Date, '%Y-%m-%d')
+CD_only$Quarter.End.Date <- as.Date(CD_only$Quarter.End.Date, '%Y-%m-%d') # format column as date
+
+# arrange data from oldest to newest
+CD_only <- CD_only %>% 
+  arrange(Quarter.End.Date)
 
 # create initial plot to visualize the data
 ggplot(CD_only, aes(x = Quarter.End.Date, y = Construction.and.Demolition.Waste)) +
   geom_point()
 
 # use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series
-pettitt.test(CD_only$Construction.and.Demolition.Waste)
+pettitt.test(CD_only$Construction.and.Demolition.Waste) # change point at time 40
+
+# Run separate Mann-Kendall for each section
+mk.test(CD_only$Construction.and.Demolition.Waste[1:40])
+mk.test(CD_only$Construction.and.Demolition.Waste[41:80])
+
+# Is there a second change point?
+pettitt.test(CD_only$Construction.and.Demolition.Waste[41:80])
+# position 27, so 41+27 = change point at time 68
+
+# Run separate Mann-Kendall for new section
+mk.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = 0.9453, not likely a 3rd change point
+
+# Is there a third change point?
+pettitt.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = p-value = 1.261, no 3rd change point
+
+# years corresponding to changepoints
+changepoint1 <- CD_only$Quarter.End.Date[40] # between Q4 2007 & Q1 2008 = ~ 2008-02-14
+changepoint2 <- CD_only$Quarter.End.Date[68] # between Q4 2014 & Q1 2015 = ~ 2015-02-14
+
+# Add vertical lines to the original graph to represent change points
+CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
+  geom_point() +
+  geom_vline(aes(xintercept=as.Date('2008-02-14')), linetype=2, colour="red", size=1) +
+  geom_vline(aes(xintercept=as.Date('2015-02-14')), linetype=4, colour="blue", size=1) + 
+  geom_text(x=as.Date('2009-09-1'), y=260000, label=stringr::str_wrap('breakpoint1: Q4,2007-Q1,2008', 15), colour="red", size=5) +
+  geom_text(x=as.Date('2016-09-1'), y=260000, label=stringr::str_wrap('breakpoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
+  xlab('End of Report Quarter') + 
+  ylab('C&D Cover (U.S. Tons)') + 
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle('Construction & Demolition Daily Cover in CA')
+print(CD_plot_changepoints)  
 
 ```
 
+Misc code for Test 3: 
+
+# Run separate seasonal Mann-Kendall for each change point
+CD_as_ts <- ts(CD_only$Quarter.End.Date, start =1998-03-31, end =2017-12-31, frequency = 4) # convert vector of CD quantities into class ts
+
+smk.test(ts(CD_as_ts[1:39], start =1998-03-31, end =2007-09-30, frequency = 4)) # p-value = 3.573e-05 inferring that there is monotonic trend over time with reporting season
+smk.test(ts(CD_as_ts[40:80], start =2007-12-31, end =2017-12-31, frequency = 4))
+
+----
+
+# Add vertical lines to the original graph to represent change points
+CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
+  geom_point() +
+  geom_vline(aes(xintercept=as.numeric(Quarter.End.Date[c(40)])), linetype=2, colour="blue", size=1) +
+  geom_vline(aes(xintercept=as.numeric(Quarter.End.Date[c(68)])), linetype=2, colour="blue", size=1) + 
+  xlab('End of Report Quarter') + 
+  ylab('C&D Cover (U.S. Tons)') + 
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle('Construction & Demolition Daily Cover in CA')
+print(CD_plot_changepoints)  
+##SKO: add dates as text
+##check LEED
