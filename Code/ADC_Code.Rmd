@@ -96,8 +96,6 @@ ADC_summary_by_year <- ADC_gathered %>%
 
 ```{r}
 
-#SKO: update columns names!!
-
 # Graph 1: for 2017 data, display total by type
 total_bytype_2017 <- ADC_gathered %>%
   filter(Report.Year == 2017) %>%
@@ -112,10 +110,11 @@ total_bytype_2017$Type <- as.factor(total_bytype_2017$Type)
 total_bytype_2017_plot <- 
     ggplot(data=total_bytype_2017, aes(x=Type, y=Quantity)) +
     geom_bar(stat="identity") + 
-    xlab("Type") +
-    ylab("Quantity (US Tons)") +
+    xlab('') + 
+    ylab("Quantity (U.S. Tons)") +
     ggtitle("2017 Quantities of ADC by Type") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+    scale_x_discrete(labels = c('Ash','Auto Shredder Waste','Compost', 'Construction & Demolition Waste', 'Contaminated Sediment', 'Green Material', 'Mixed', 'Other', 'Sludge', 'Tires'))
 print(total_bytype_2017_plot)
 
 # Graph 2: faceted by Type, display spread of quarterly values by year
@@ -123,14 +122,17 @@ quarterlyvalues_byyear_plot <- ggplot(ADC_gathered) +
   geom_boxplot(aes(x = Report.Year, y = Quantity, group = Report.Year)) + 
   facet_wrap(vars(Type), nrow = 5) + 
   xlab("Year") +
-  ylab("Quantity (US Tons)") +
-  ggtitle("Seasonal Quantities of ADC, Grouped by Year")
+  ylab("Quarterly Quantity (U.S. Tons)") +
+  ggtitle("Quarterly Quantities of ADC, Grouped by Year")
 print(quarterlyvalues_byyear_plot)
 
 # Graph 3: display data by quarter, all Types on same plot
 quarterlyvalues_alltypes_plot <- 
   ggplot(ADC_gathered) + 
-  geom_point(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year)))
+  geom_point(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year))) + 
+  xlab("Quarter") + 
+  ylab("Quantity (U.S. Tons)") + 
+  ggtitle("Quantities Across Quarters")
 print(quarterlyvalues_alltypes_plot)
 ##SKO group values under legend
 
@@ -154,19 +156,20 @@ ADC_total_only$Report.Quarter <- as.factor(ADC_total_only$Report.Quarter)
 #write.csv(ADC_total_only, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
 
 # perform one-way ANOVA
-
 # assumption #0: observations are independent (cannot be tested, but assumed to be independent)
 
 # test assumption #1: normality
-
 # null hypothesis is that the dataset is normally distributed
 shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 1]) # p-value = 0.03312
 shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 2]) # p-value = 0.02271
 shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 3]) # p-value = 0.00993
 shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 4]) # p-value = 0.001305
 
-ggplot(ADC_total_only) +
-  geom_freqpoly(aes(x = Total, color = Report.Quarter))
+ADC_freq_poly <- ggplot(ADC_total_only) +
+  geom_freqpoly(aes(x = Total, color = Report.Quarter)) + 
+  xlab("Quarterly Quantity (U.S. Tons)") + 
+  ylab("# of Records")
+print(ADC_freq_poly) # appears to be left skewed
 
 qqnorm(ADC_total_only$Total); qqline(ADC_total_only$Total) # does not match 1:1 ratio
 
@@ -185,29 +188,20 @@ bartlett.test(ADC_InvTotal$InvTotal ~ ADC_InvTotal$Report.Quarter)
 # null hypothesis is that the variance is the same for the treatment groups
 bartlett.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter) #p-value = 0.9308 # df = 3 (statistical power is very low)
 
-# dataset is not normal, but does fulfill requirement for same variances. proceed with one-way ANOVA
-#SKO: sample size is 22 for each group. used parametric (instead of non-parametric bc https://blog.minitab.com/blog/adventures-in-statistics-2/choosing-between-a-nonparametric-test-and-a-parametric-test)
+# dataset is not normal, but does fulfill requirement for same variances. proceed with non-parametric tests.
 
-# Format as an aov
-ADC_quarter_anova <- aov(ADC_total_only$Total ~ ADC_total_only$Report.Quarter)
-ADC_quarter_anova
-summary(ADC_quarter_anova)
-
-# Run a post-hoc test for pairwise differences
-TukeyHSD(ADC_quarter_anova) # none of the p values are < 0.05
-plot(TukeyHSD(ADC_quarter_anova)) # all of the bars overlap
-# none of the pairings have significantly different means
-
-# plot the results
-ADC_quarter_anova_plot <- ggplot(ADC_total_only, aes(x = Report.Quarter, y = Total)) +
-  geom_violin(draw_quantiles = 0.5)
-print(ADC_quarter_anova_plot)
-##SKO make it pretty
-
-# try non-parametric w/ post hoc, bc sample size is on the smaller end for parametric. non-parametric does not show very different results. df is still low
+# try non-parametric w/ post hoc, bc sample size is on the smaller end for parametric
 ADC_quarter_kw <- kruskal.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter)
 ADC_quarter_kw
 dunnTest(ADC_total_only$Total, ADC_total_only$Report.Quarter)
+
+# plot the results
+ADC_quarter_plot <- ggplot(ADC_total_only, aes(x = Report.Quarter, y = Total)) +
+  geom_violin(draw_quantiles = 0.5) + 
+  xlab('Report Quarter') + 
+  ylab('Quantity (U.S. Tons)') + 
+  ggtitle('ADC Quantities by Quarter')
+print(ADC_quarter_plot)
 
 ```
 
@@ -217,8 +211,7 @@ Can total annual ADC be represented with a linear model?
 
 ```{r}
 
-# assumptions for lm (independent observation, normal distribution, equal variances among groups) checked in Test 1
-# data is not normal, but bc group variances are equal
+# assumptions for lm (independent observation, normal distribution, equal variances among groups) checked in Test 1. data is not normal, but group variances are equal. proceed with lm
 
 # create dates corresponding to year & quarter combination
 # Q1: Mar 31
@@ -248,25 +241,26 @@ summary(ADC_date_lm) # Adjusted R-squared:  0.4433 (date explains 44.33% of vari
 
 # check normality of residuals
 par(mfrow=c(2,2))
-plot(ADC_date_lm) # QQ of residuals looks relatively normal
+plot(ADC_date_glm) # QQ of residuals looks relatively normal
 
 # plot data w/ model
-ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
+ADC_fulldate_plot <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
   geom_abline(intercept = -190264.58, slope = 73.14) + 
-  geom_point()
+  geom_point() + 
+  xlab('') + 
+  ylab('Quarterly Quantity (U.S. Tons)') + 
+  ggtitle('Quarterly Quantities of ADC') 
+print(ADC_fulldate_plot)
 # visually, model does not appear to be a great fit
-##SKO: make it pretty
 
-# try Mann-Kendall non-parametric test to detect monotonic trends (H0: there is no trend)
-total_oldest_to_newest <- ADC_fulldate %>%
-  select(Quarter.End.Date, Total) %>%
-  arrange(Quarter.End.Date) # arrange data from oldest to newest
-
-mk.test(total_oldest_to_newest$Total) # p-value = 2.326e-09 inferring that there is a monotonic trend over time
-
-# run seasonal Mann-Kendall
-total_as_ts <- ts(total_oldest_to_newest$Total, start =1995-03-31, end =2017-12-31, frequency = 4) # convert total vector into class ts
-smk.test(total_as_ts) # p-value < 2.2e-16 inferring that there is monotonic trend over time with reporting season
+# plot with loess smoother
+ADC_fulldate_plot_loess <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
+  geom_point() + 
+  geom_smooth(method = loess) +
+  xlab('') + 
+  ylab('Quarterly Quantity (U.S. Tons)') + 
+  ggtitle('Quarterly Quantities of ADC') 
+print(ADC_fulldate_plot_loess)
 
 ```
 
@@ -275,15 +269,6 @@ smk.test(total_as_ts) # p-value < 2.2e-16 inferring that there is monotonic tren
 Is there a changepoint in the Construction & Demolition quantities over time?
 
 ```{r}
-
-# check normality for C&D waste specifically
-shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
-
-ggplot(CD_only) +
-  geom_histogram(aes(x = Construction.and.Demolition.Waste))
-
-qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
-# since sample size is small, and totals of all types was non-normal, will use non-parametric test for changepoint analysis
 
 # create dataframe with dates
 quarters_to_dates$Quarter <- as.integer(quarters_to_dates$Quarter)
@@ -304,7 +289,15 @@ CD_only <- CD_only %>%
 ggplot(CD_only, aes(x = Quarter.End.Date, y = Construction.and.Demolition.Waste)) +
   geom_point()
 
-# use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series
+# check normality for C&D waste specifically
+shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
+
+ggplot(CD_only) +
+  geom_histogram(aes(x = Construction.and.Demolition.Waste))
+
+qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
+
+# use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series. 
 pettitt.test(CD_only$Construction.and.Demolition.Waste) # change point at time 40
 
 # Run separate Mann-Kendall for each section
@@ -333,13 +326,13 @@ CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.a
   geom_text(x=as.Date('2010-1-1'), y=260000, label=stringr::str_wrap('changepoint1: Q4,2007-Q1,2008', 15), colour="purple", size=5) +
   geom_text(x=as.Date('2017-1-1'), y=260000, label=stringr::str_wrap('changepoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
   xlab('') +
-  ylab('C&D Cover (U.S. Tons)') + 
+  ylab('Quarterly C&D Cover (U.S. Tons)') + 
   scale_y_continuous(labels = scales::comma) + 
   ggtitle('Construction & Demolition Landfill Cover in CA')
 print(CD_plot_changepoints)  
 
-##SKO save figures
-ggsave("CD_plot_changepoints.pdf", CD_plot_changepoints, path = "../Output/CD_plot_changepoints.pdf")
+# save all figures
+ggsave("CD_plot_changepoints.jpg", CD_plot_changepoints, path = "../Output", height = 4, width = 11, units = "in", dpi = 300)
 
 ```
 
@@ -354,4 +347,27 @@ SKO: decided not to use bc the fractions were smaller & smaller as you check cha
 
 ---
 
-height = 4, width = 6, units = "in", dpi = 300
+#SKO: sample size is 22 for each group. used parametric (instead of non-parametric bc https://blog.minitab.com/blog/adventures-in-statistics-2/choosing-between-a-nonparametric-test-and-a-parametric-test)
+
+# Format as an aov
+ADC_quarter_anova <- aov(ADC_total_only$Total ~ ADC_total_only$Report.Quarter)
+ADC_quarter_anova
+summary(ADC_quarter_anova)
+
+# Run a post-hoc test for pairwise differences
+TukeyHSD(ADC_quarter_anova) # none of the p values are < 0.05
+plot(TukeyHSD(ADC_quarter_anova)) # all of the bars overlap
+# none of the pairings have significantly different means
+
+--- 
+
+# try Mann-Kendall non-parametric test to detect monotonic trends (H0: there is no trend)
+total_oldest_to_newest <- ADC_fulldate %>%
+  select(Quarter.End.Date, Total) %>%
+  arrange(Quarter.End.Date) # arrange data from oldest to newest
+
+mk.test(total_oldest_to_newest$Total) # p-value = 2.326e-09 inferring that there is a monotonic trend over time
+
+# run seasonal Mann-Kendall
+total_as_ts <- ts(total_oldest_to_newest$Total, start =1995-03-31, end =2017-12-31, frequency = 4) # convert total vector into class ts
+smk.test(total_as_ts) # p-value < 2.2e-16 inferring that there is monotonic trend over time with reporting season
