@@ -102,6 +102,9 @@ total_bytype_2017 <- ADC_gathered %>%
   group_by(Type) %>%
   summarize(Quantity = sum(Quantity))
 
+# save 2017 dataset
+write.csv(total_bytype_2017, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_2017only_processed.csv")
+
 # convert column Type into factor
 class(total_bytype_2017$Type)
 total_bytype_2017$Type <- as.factor(total_bytype_2017$Type)
@@ -165,7 +168,7 @@ class(ADC_total_only$Report.Quarter)
 ADC_total_only$Report.Quarter <- as.factor(ADC_total_only$Report.Quarter) 
 
 # save the dataset
-#write.csv(ADC_total_only, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
+write.csv(ADC_total_only, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
 
 # perform one-way ANOVA
 # assumption #0: observations are independent (cannot be tested, but assumed to be independent)
@@ -256,7 +259,7 @@ summary(ADC_date_lm) # Adjusted R-squared:  0.4433 (date explains 44.33% of vari
 
 # check normality of residuals
 par(mfrow=c(2,2))
-plot(ADC_date_glm) # QQ of residuals looks relatively normal
+plot(ADC_date_lm) # QQ of residuals looks relatively normal
 
 # plot data w/ model
 ADC_fulldate_plot <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
