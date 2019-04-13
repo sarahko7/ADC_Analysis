@@ -23,6 +23,7 @@ library(ggplot2)
 library(FSA)
 library(lme4)
 library(trend)
+library(captioner)
 
 # set working directory
 setwd("~/Duke/Year 2/Spring 2019/Data Analytics/ADC_Analysis/Code")
@@ -155,7 +156,7 @@ ggsave("QuarterlyADC_alltypes.jpg", quarterlyvalues_alltypes_plot, path = "../Ou
 
 ## Test 1: Statistical Modeling & Data Visualization
 
-Is there a significant difference in total ADC between report quarters? (e.g. 1, 2, 3, 4)
+Is there a significant difference in total ADC between report quarters? (i.e. 1, 2, 3, 4)
 
 ```{r}
 
@@ -183,7 +184,8 @@ shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 4]) # p-value
 ADC_freq_poly <- ggplot(ADC_total_only) +
   geom_freqpoly(aes(x = Total, color = Report.Quarter)) + 
   xlab("Quarterly Quantity (U.S. Tons)") + 
-  ylab("# of Records")
+  ylab("# of Records") + 
+  ggtitle("Frequency of Quarterly Quantities")
 print(ADC_freq_poly) # appears to be left skewed
 
 qqnorm(ADC_total_only$Total); qqline(ADC_total_only$Total) # does not match 1:1 ratio
@@ -250,7 +252,10 @@ class(ADC_fulldate$Quarter.End.Date)
 
 # create initial plot to visualize the data
 ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
-  geom_point()
+  geom_point() + 
+  xlab("") + 
+  ylab("ADC Quantity (U.S. Tons)") +
+  ggtitle("Quarterly Quantities of ADC")
 
 # create lm
 ADC_date_lm <- lm(data = ADC_fulldate, Total ~ Quarter.End.Date)
@@ -312,13 +317,19 @@ CD_only <- CD_only %>%
 
 # create initial plot to visualize the data
 ggplot(CD_only, aes(x = Quarter.End.Date, y = Construction.and.Demolition.Waste)) +
-  geom_point()
+  geom_point() + 
+  xlab("") + 
+  ylab("C&D Quantity (U.S. Tons)") + 
+  ggtitle("Construction & Demolition Quarterly Quantities")
 
 # check normality for C&D waste specifically
 shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
 
 ggplot(CD_only) +
-  geom_histogram(aes(x = Construction.and.Demolition.Waste))
+  geom_histogram(aes(x = Construction.and.Demolition.Waste)) + 
+  xlab("Quarterly C&D (U.S. Tons)") +
+  ylab("Count") + 
+  ggtitle("Count of Quarterly C&D Quantities")
 
 qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
 
@@ -360,6 +371,10 @@ print(CD_plot_changepoints)
 ggsave("CD_plot_changepoints.jpg", CD_plot_changepoints, path = "../Output", height = 4, width = 11, units = "in", dpi = 300)
 
 ```
+
+MISCELLANEOUS CODE THAT WAS DELETED
+
+---
 
 Misc code for Test 3: 
 

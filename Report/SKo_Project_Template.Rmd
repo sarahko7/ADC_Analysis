@@ -16,26 +16,73 @@ mainfont: Times New Roman
 <Information in these brackets are used for annotating the RMarkdown file. They will not appear in the final version of the PDF document>
 
 \newpage
+
 \tableofcontents 
+
 \newpage
+
 \listoftables 
+
 \newpage
+
 \listoffigures 
+
 \newpage
 
 <Setup the global options for the R chunks in your document>
 
-<Note: set up autoreferencing for figures and tables in your document>
-
 ```{r setup, include=FALSE}
+# set up global chunk options
+knitr::opts_chunk$set(message=FALSE, warning=FALSE)
+
 # Set your working directory
+setwd("~/Duke/Year 2/Spring 2019/Data Analytics/ADC_Analysis/Code")
+getwd() #check wd
 
 # Load your packages
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(FSA)
+library(lme4)
+library(trend)
+library(captioner)
+library(knitr)
+library(kableExtra)
+library(magick)
+library(webshot)
+library(devtools)
 
 # Set your ggplot theme
+# create ggplot theme
+SKotheme <- theme_gray(base_size = 15) +
+  theme(axis.text = element_text(color = "black"), 
+        legend.position = "right", 
+        plot.title = element_text(hjust = 0.5))
+
+# set ggplot theme
+theme_set(SKotheme)
 
 ```
 
+<Note: set up autoreferencing for figures and tables in your document>
+
+```{r, include=FALSE}
+
+table_nums <- captioner(prefix = "Table")
+
+table_nums(name = 'data_struc_table_caption', caption = "Summary of Data Structure")
+
+fig_nums <- captioner(prefix = "Figure")
+
+fig_nums("a_plot1", "Caption1")
+fig_nums("a_plot2", "Caption2")
+fig_nums("a_plot3", "Caption3")
+fig_nums("a_plot4", "Caption4")
+fig_nums("a_plot5", "Caption5")
+fig_nums("a_plot6", "Caption6")
+
+```
 
 # Research Question and Rationale
 
@@ -45,11 +92,27 @@ mainfont: Times New Roman
 
 \newpage
 
-# Dataset Information
+# Dataset Information 
 
 <Information on how the dataset for this analysis were collected, the data contained in the dataset, and any important pieces of information that are relevant to your analyses. This section should contain much of same information as the README file for the dataset but formatted in a way that is more narrative.>
 
 <Add a table that summarizes your data structure. This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.>
+
+```{r data_structure, echo=FALSE}
+
+data_structure <- data.frame("Column_Name" = c('Report Year', 'Report Quarter', 'Ash', 'Auto Shredder Waste', 'Construction and Demolition Waste', 'Compost', 'Contaminated Sediment', 'Green Material', 'Mixed', 'Other', 'Tires', 'Sludge', 'Total'),
+                             "Description" = c('Year that the ADC was used', 'Quarter that the ADC was used', 'Ash and cement kiln dust materials', 'Treated auto shredder waste', 'Processed construction and demolition wastes and materials', 'Compost materials', 'Contaminated sediment, dredge spoils, foundry sands', 'Processed green material', 'Mixtures of the other categories', 'Before 1998, most ADC was classified in this category', 'Shredded tires', 'Sludge and sludge-derived materials', 'Sum of the columns Ash:Sludge'))
+
+data_struc_table <- kable(data_structure, col.names = c("Column Name", "Data Description")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "full_width = F")) %>% 
+  row_spec(0, bold = T) 
+data_struc_table
+
+```
+SKOTESTThis is the caption for the table `r table_nums("data_struc_table_caption")`
+
+SKOTESTreference the table in text:
+`r table_nums("data_struc_table_caption", display = "cite")`
 
 \newpage
 
@@ -59,6 +122,117 @@ mainfont: Times New Roman
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, and the rationale for your approach.>
 
+## Import & Explore
+
+```{r import_explore}
+
+# import dataset
+ADC_raw <- read.csv("../Raw_Data/CalRecycle_ADC_raw.csv")
+
+# explore dataset
+view(ADC_raw)
+class(ADC_raw)
+colnames(ADC_raw)
+dim(ADC_raw)
+
+# per the CalRecycle website, segregation into ADC types started in 1998
+# therefore, for the analysis, remove data from before 1998
+class(ADC_raw$Report.Year)
+ADC_data <- filter(ADC_raw, Report.Year >= 1998)
+dim(ADC_data)
+
+# explore new dataset
+head(ADC_data)
+tail(ADC_data)
+
+# tidy the data by gathering the type columns
+ADC_gathered <- gather(ADC_data, "Type", "Quantity", Ash:Sludge) %>%
+  select(-Total) # remove Total column
+
+# save the tidy dataset
+write.csv(ADC_data, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_tidy_processed.csv")
+
+# generate summary data
+ADC_summary_by_type <- ADC_gathered %>%
+  group_by(Type) %>% # group the data by lakename
+  filter(!is.na(Quantity)) %>% #remove the records when there are nas Quantity
+  summarise(MeanQuarterlyQuantity = mean(Quantity), 
+            MinQuarterlyQuantity = min(Quantity), 
+            MaxQuarterlyQuantity = max(Quantity), 
+            sdQuarterlyQuantity = sd(Quantity), 
+            medianQuarterlyQuantity = median(Quantity))
+
+ADC_summary_by_year <- ADC_gathered %>%
+  group_by(Report.Year) %>% # group the data by year
+  filter(!is.na(Quantity)) %>% #remove the records when there are nas Quantity
+  summarise(MeanQuarterlyQuantity = mean(Quantity), 
+            MinQuarterlyQuantity = min(Quantity), 
+            MaxQuarterlyQuantity = max(Quantity), 
+            sdQuarterlyQuantity = sd(Quantity), 
+            medianQuarterlyQuantity = median(Quantity))
+
+```
+
+## Create Graphs
+
+``` {r explore_graphs, echo=TRUE}
+
+# Graph 1: for 2017 data, display total by type
+total_bytype_2017 <- ADC_gathered %>%
+  filter(Report.Year == 2017) %>%
+  group_by(Type) %>%
+  summarize(Quantity = sum(Quantity))
+
+# save 2017 dataset
+write.csv(total_bytype_2017, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_2017only_processed.csv")
+
+# convert column Type into factor
+class(total_bytype_2017$Type)
+total_bytype_2017$Type <- as.factor(total_bytype_2017$Type)
+
+# plot as a bar chart
+total_bytype_2017_plot <- 
+    ggplot(data=total_bytype_2017, aes(x=Type, y=Quantity)) +
+    geom_bar(stat="identity") + 
+    xlab('') + 
+    ylab("Quantity (U.S. Tons)") +
+    ggtitle("2017 Quantities of ADC by Type") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+    scale_x_discrete(labels = c('Ash','Auto Shredder Waste','Compost', 'Construction & Demolition Waste', 'Contaminated Sediment', 'Green Material', 'Mixed', 'Other', 'Sludge', 'Tires'))
+print(total_bytype_2017_plot)
+
+# save figure
+ggsave("2017ADCbytype_alltypes.jpg", total_bytype_2017_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
+# Graph 2: faceted by Type, display spread of quarterly values by year
+quarterlyvalues_byyear_plot <- ggplot(ADC_gathered) +
+  geom_boxplot(aes(x = Report.Year, y = Quantity, group = Report.Year)) + 
+  facet_wrap(vars(Type), nrow = 5) + 
+  xlab("") +
+  ylab("Quarterly Quantity (U.S. Tons)") +
+  ggtitle("Quarterly Quantities of ADC, Grouped by Year")
+print(quarterlyvalues_byyear_plot)
+
+# save figure
+ggsave("ADCyeardistribution_alltypes.jpg", quarterlyvalues_byyear_plot, path = "../Output", height = 8, width = 8, units = "in", dpi = 300)
+
+# Graph 3: display data by quarter, all Types on same plot
+quarterlyvalues_alltypes_plot <- 
+  ggplot(ADC_gathered) + 
+  geom_jitter(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year)), width = 0.3, height = 0) + 
+  labs(shape="Type", colour="Year") + 
+  xlab("Quarter") + 
+  ylab("Quantity (U.S. Tons)") + 
+  ggtitle("Quantities Within Quarters") + 
+  scale_shape_manual(values=c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), labels = c("Ash", "Auto Shredder Waste", "Compost", "Construction & Demolition", "Contaminated Sediment", "Green Material", "Mixed", "Other", "Sludge", "Tires")) + 
+  theme(legend.position="right", legend.box = "vertical", legend.direction = "vertical") + 
+  guides(shape = guide_legend(order = 1), color = guide_legend(order = 2))
+print(quarterlyvalues_alltypes_plot)
+
+# save figure
+ggsave("QuarterlyADC_alltypes.jpg", quarterlyvalues_alltypes_plot, path = "../Output", height = 9, width = 9, units = "in", dpi = 300)
+
+```
 
 \newpage
 
@@ -67,6 +241,223 @@ mainfont: Times New Roman
 
 <Include text sections to accompany these R chunks to explain the reasoning behind your workflow, rationale for your approach, and the justification of meeting or failing to meet assumptions of tests.>
 
+## Test 1: Statistical Modeling & Data Visualization
+
+Is there a significant difference in total ADC between report quarters? (i.e. 1, 2, 3, 4)
+
+```{r Test1, echo=TRUE}
+
+# create dataset with only total values, from 1995-2017
+ADC_total_only <- ADC_raw %>%
+  select(Report.Year, Report.Quarter, Total) # keep all columns except ADC Types
+
+# convert column Report.Quarter into factor
+class(ADC_total_only$Report.Quarter)
+ADC_total_only$Report.Quarter <- as.factor(ADC_total_only$Report.Quarter) 
+
+# save the dataset
+write.csv(ADC_total_only, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
+
+# perform one-way ANOVA
+# assumption #0: observations are independent (cannot be tested, but assumed to be independent)
+
+# test assumption #1: normality
+# null hypothesis is that the dataset is normally distributed
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 1]) # p-value = 0.03312
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 2]) # p-value = 0.02271
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 3]) # p-value = 0.00993
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 4]) # p-value = 0.001305
+
+ADC_freq_poly <- ggplot(ADC_total_only) +
+  geom_freqpoly(aes(x = Total, color = Report.Quarter)) + 
+  xlab("Quarterly Quantity (U.S. Tons)") + 
+  ylab("# of Records") + 
+  ggtitle("Frequency of Quarterly Quantities")
+print(ADC_freq_poly) # appears to be left skewed
+
+qqnorm(ADC_total_only$Total); qqline(ADC_total_only$Total) # does not match 1:1 ratio
+
+# Try to fix departure from normality with ln of Total. Result is not improved, so keep non-transformed data
+ADC_LogTotal <- mutate(ADC_total_only, LogTotal = log(Total))
+qqnorm(ADC_LogTotal$LogTotal); qqline(ADC_LogTotal$LogTotal)
+bartlett.test(ADC_LogTotal$LogTotal ~ ADC_LogTotal$Report.Quarter)
+
+# Try to fix departure from normality with 1/Total. Result is not improved, so keep non-transformed data
+ADC_InvTotal <- mutate(ADC_total_only, InvTotal = 1/Total)
+qqnorm(ADC_InvTotal$InvTotal); qqline(ADC_InvTotal$InvTotal)
+bartlett.test(ADC_InvTotal$InvTotal ~ ADC_InvTotal$Report.Quarter)
+
+# test assumption #2: equal variances among groups
+
+# null hypothesis is that the variance is the same for the treatment groups
+bartlett.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter) #p-value = 0.9308 # df = 3 (statistical power is very low)
+
+# dataset is not normal, but does fulfill requirement for same variances. proceed with non-parametric tests.
+
+# try non-parametric w/ post hoc, bc sample size is on the smaller end for parametric
+ADC_quarter_kw <- kruskal.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter)
+ADC_quarter_kw
+dunnTest(ADC_total_only$Total, ADC_total_only$Report.Quarter)
+
+# plot the results
+ADC_quarter_plot <- ggplot(ADC_total_only, aes(x = Report.Quarter, y = Total)) +
+  geom_violin(draw_quantiles = 0.5) + 
+  xlab('Report Quarter') + 
+  ylab('Quantity (U.S. Tons)') + 
+  ggtitle('ADC Quantities by Quarter')
+print(ADC_quarter_plot)
+
+# save figure
+ggsave("QuarterlyADC_violinplot.jpg", ADC_quarter_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
+```
+
+## Test 2: Statistical Modeling & Data Visualization
+
+Can total annual ADC be represented with a linear model?
+
+```{r Test2}
+
+# assumptions for lm (independent observation, normal distribution, equal variances among groups) checked in Test 1. data is not normal, but group variances are equal. proceed with lm
+
+# create dates corresponding to year & quarter combination
+# Q1: Mar 31
+# Q2: Jun 30
+# Q3: Sep 30
+# Q4: Dec 31
+
+# create dataframe of month-date
+quarters_to_dates <- data.frame("Quarter" = as.factor(1:4), "Month.Date" = c('3-31', '6-30', '9-30', '12-31'))
+
+# create new dataframe with dates
+ADC_fulldate <- ADC_total_only %>% 
+  inner_join(quarters_to_dates, by = c("Report.Quarter" =  "Quarter")) %>%
+  unite('Quarter.End.Date', c(Report.Year, Month.Date), sep = "-", remove = FALSE)
+
+ADC_fulldate$Quarter.End.Date <- as.Date(ADC_fulldate$Quarter.End.Date, "%Y-%m-%d")
+class(ADC_fulldate$Quarter.End.Date)
+
+# create initial plot to visualize the data
+ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
+  geom_point() + 
+  xlab("") + 
+  ylab("ADC Quantity (U.S. Tons)") +
+  ggtitle("Quarterly Quantities of ADC")
+
+# create lm
+ADC_date_lm <- lm(data = ADC_fulldate, Total ~ Quarter.End.Date)
+ADC_date_lm # Total = 73.14*Quarter.End.Date - 190264.58
+summary(ADC_date_lm) # Adjusted R-squared:  0.4433 (date explains 44.33% of variation in total), p-value: 2.694e-13
+
+# check normality of residuals
+par(mfrow=c(2,2))
+plot(ADC_date_lm) # QQ of residuals looks relatively normal
+
+# plot data w/ model
+ADC_fulldate_plot <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
+  geom_abline(intercept = -190264.58, slope = 73.14) + 
+  geom_point() + 
+  xlab('') + 
+  ylab('Quarterly Quantity (U.S. Tons)') + 
+  ggtitle('Quarterly Quantities of ADC') 
+print(ADC_fulldate_plot)
+# visually, model does not appear to be a great fit
+
+# save figure
+ggsave("TotalADC_plot_calculatedmodel.jpg", ADC_fulldate_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
+# plot with loess smoother
+ADC_fulldate_plot_loess <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
+  geom_point() + 
+  geom_smooth(method = loess) +
+  xlab('') + 
+  ylab('Quarterly Quantity (U.S. Tons)') + 
+  ggtitle('Quarterly Quantities of ADC') 
+print(ADC_fulldate_plot_loess)
+# visually, model appears to be a great fit
+
+# save figure
+ggsave("TotalADC_plot_loess.jpg", ADC_fulldate_plot_loess, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
+```
+
+## Test 3: Statistical Modeling & Data Visualization
+
+Is there a changepoint in the Construction & Demolition quantities over time?
+
+```{r Test3}
+
+# create dataframe with dates
+quarters_to_dates$Quarter <- as.integer(quarters_to_dates$Quarter)
+
+CD_only <- ADC_data %>% 
+  select(Report.Year, Report.Quarter, Construction.and.Demolition.Waste) %>%
+  inner_join(quarters_to_dates, by = c("Report.Quarter" =  "Quarter")) %>%
+  unite('Quarter.End.Date', c(Report.Year, Month.Date), sep = "-") %>%
+  select(-Report.Quarter)
+
+CD_only$Quarter.End.Date <- as.Date(CD_only$Quarter.End.Date, '%Y-%m-%d') # format column as date
+
+# arrange data from oldest to newest
+CD_only <- CD_only %>% 
+  arrange(Quarter.End.Date)
+
+# create initial plot to visualize the data
+ggplot(CD_only, aes(x = Quarter.End.Date, y = Construction.and.Demolition.Waste)) +
+  geom_point() + 
+  xlab("") + 
+  ylab("C&D Quantity (U.S. Tons)") + 
+  ggtitle("Construction & Demolition Quarterly Quantities")
+
+# check normality for C&D waste specifically
+shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
+
+ggplot(CD_only) +
+  geom_histogram(aes(x = Construction.and.Demolition.Waste)) + 
+  xlab("Quarterly C&D (U.S. Tons)") +
+  ylab("Count") + 
+  ggtitle("Count of Quarterly C&D Quantities")
+
+qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
+
+# use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series. 
+pettitt.test(CD_only$Construction.and.Demolition.Waste) # change point at time 40
+
+# Run separate Mann-Kendall for each section
+mk.test(CD_only$Construction.and.Demolition.Waste[1:40])
+mk.test(CD_only$Construction.and.Demolition.Waste[41:80])
+
+# Is there a second change point?
+pettitt.test(CD_only$Construction.and.Demolition.Waste[41:80])
+# position 27, so 41+27 = change point at time 68
+
+# Run separate Mann-Kendall for new section
+mk.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = 0.9453, not likely a 3rd change point
+
+# Is there a third change point?
+pettitt.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = p-value = 1.261, no 3rd change point
+
+# years corresponding to changepoints
+changepoint1 <- CD_only$Quarter.End.Date[40] # between Q4 2007 & Q1 2008 = ~ 2008-02-14
+changepoint2 <- CD_only$Quarter.End.Date[68] # between Q4 2014 & Q1 2015 = ~ 2015-02-14
+
+# Add vertical lines to the original graph to represent change points
+CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
+  geom_point() +
+  geom_vline(aes(xintercept=as.Date('2008-02-14')), linetype=2, colour="purple", size=1) +
+  geom_vline(aes(xintercept=as.Date('2015-02-14')), linetype=4, colour="blue", size=1) + 
+  geom_text(x=as.Date('2010-1-1'), y=260000, label=stringr::str_wrap('changepoint1: Q4,2007-Q1,2008', 15), colour="purple", size=5) +
+  geom_text(x=as.Date('2017-1-1'), y=260000, label=stringr::str_wrap('changepoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
+  xlab('') +
+  ylab('Quarterly C&D Cover (U.S. Tons)') + 
+  scale_y_continuous(labels = scales::comma) + 
+  ggtitle('Construction & Demolition Landfill Cover in CA')
+print(CD_plot_changepoints)  
+
+# save figure
+ggsave("CD_plot_changepoints.jpg", CD_plot_changepoints, path = "../Output", height = 4, width = 11, units = "in", dpi = 300)
+
+```
 
 \newpage
 
