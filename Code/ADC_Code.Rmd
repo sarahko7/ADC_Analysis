@@ -117,24 +117,36 @@ total_bytype_2017_plot <-
     scale_x_discrete(labels = c('Ash','Auto Shredder Waste','Compost', 'Construction & Demolition Waste', 'Contaminated Sediment', 'Green Material', 'Mixed', 'Other', 'Sludge', 'Tires'))
 print(total_bytype_2017_plot)
 
+# save figure
+ggsave("2017ADCbytype_alltypes.jpg", total_bytype_2017_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
 # Graph 2: faceted by Type, display spread of quarterly values by year
 quarterlyvalues_byyear_plot <- ggplot(ADC_gathered) +
   geom_boxplot(aes(x = Report.Year, y = Quantity, group = Report.Year)) + 
   facet_wrap(vars(Type), nrow = 5) + 
-  xlab("Year") +
+  xlab("") +
   ylab("Quarterly Quantity (U.S. Tons)") +
   ggtitle("Quarterly Quantities of ADC, Grouped by Year")
 print(quarterlyvalues_byyear_plot)
 
+# save figure
+ggsave("ADCyeardistribution_alltypes.jpg", quarterlyvalues_byyear_plot, path = "../Output", height = 8, width = 8, units = "in", dpi = 300)
+
 # Graph 3: display data by quarter, all Types on same plot
 quarterlyvalues_alltypes_plot <- 
   ggplot(ADC_gathered) + 
-  geom_point(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year))) + 
+  geom_jitter(aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year)), width = 0.3, height = 0) + 
+  labs(shape="Type", colour="Year") + 
   xlab("Quarter") + 
   ylab("Quantity (U.S. Tons)") + 
-  ggtitle("Quantities Across Quarters")
+  ggtitle("Quantities Within Quarters") + 
+  scale_shape_manual(values=c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), labels = c("Ash", "Auto Shredder Waste", "Compost", "Construction & Demolition", "Contaminated Sediment", "Green Material", "Mixed", "Other", "Sludge", "Tires")) + 
+  theme(legend.position="right", legend.box = "vertical", legend.direction = "vertical") + 
+  guides(shape = guide_legend(order = 1), color = guide_legend(order = 2))
 print(quarterlyvalues_alltypes_plot)
-##SKO group values under legend
+
+# save figure
+ggsave("QuarterlyADC_alltypes.jpg", quarterlyvalues_alltypes_plot, path = "../Output", height = 9, width = 9, units = "in", dpi = 300)
 
 ```
 
@@ -203,6 +215,9 @@ ADC_quarter_plot <- ggplot(ADC_total_only, aes(x = Report.Quarter, y = Total)) +
   ggtitle('ADC Quantities by Quarter')
 print(ADC_quarter_plot)
 
+# save figure
+ggsave("QuarterlyADC_violinplot.jpg", ADC_quarter_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
 ```
 
 ## Test 2: Statistical Modeling & Data Visualization
@@ -253,6 +268,9 @@ ADC_fulldate_plot <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) 
 print(ADC_fulldate_plot)
 # visually, model does not appear to be a great fit
 
+# save figure
+ggsave("TotalADC_plot_calculatedmodel.jpg", ADC_fulldate_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
+
 # plot with loess smoother
 ADC_fulldate_plot_loess <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
   geom_point() + 
@@ -261,6 +279,10 @@ ADC_fulldate_plot_loess <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = To
   ylab('Quarterly Quantity (U.S. Tons)') + 
   ggtitle('Quarterly Quantities of ADC') 
 print(ADC_fulldate_plot_loess)
+# visually, model appears to be a great fit
+
+# save figure
+ggsave("TotalADC_plot_loess.jpg", ADC_fulldate_plot_loess, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
 
 ```
 
@@ -331,7 +353,7 @@ CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.a
   ggtitle('Construction & Demolition Landfill Cover in CA')
 print(CD_plot_changepoints)  
 
-# save all figures
+# save figure
 ggsave("CD_plot_changepoints.jpg", CD_plot_changepoints, path = "../Output", height = 4, width = 11, units = "in", dpi = 300)
 
 ```
@@ -371,3 +393,28 @@ mk.test(total_oldest_to_newest$Total) # p-value = 2.326e-09 inferring that there
 # run seasonal Mann-Kendall
 total_as_ts <- ts(total_oldest_to_newest$Total, start =1995-03-31, end =2017-12-31, frequency = 4) # convert total vector into class ts
 smk.test(total_as_ts) # p-value < 2.2e-16 inferring that there is monotonic trend over time with reporting season
+
+--- 
+
+##SKO: create figures separately, then grid arrange
+
+#Ash
+ADC_gathered_Ash <- ADC_gathered %>%
+  filter(Type == 'Ash')
+quarterlyvalues_byyear_plot_Ash <- ggplot(ADC_gathered_Ash) +
+  geom_boxplot(aes(x = Report.Year, y = Quantity, group = Report.Year))
+print(quarterlyvalues_byyear_plot_Ash)
+
+---
+
+# group colors by 5 yr chunks: 1998-2002 (magenta), 2003-2007 (turquoise), 2008-2012 (red), 2013-2017 (yellow)
+quarterlyvalues_alltypes_plot2 <- 
+  ggplot(ADC_gathered) + 
+  geom_point(data = subset(ADC_gathered, Report.Year < 2008), aes(x = Report.Quarter, y = Quantity, shape = as.factor(Type), color = as.factor(Report.Year < 2008), group = Report.Year)) #+ 
+  scale_color_manual(values = c('Report.Year < 2008' = 'magenta3'))
+  
+print(quarterlyvalues_alltypes_plot2)
+
+https://stackoverflow.com/questions/44915362/custom-grouping-for-legend-in-ggplot
+
+
