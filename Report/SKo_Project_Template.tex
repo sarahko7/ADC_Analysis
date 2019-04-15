@@ -168,7 +168,7 @@ Rationale}\label{research-question-and-rationale}
 
 \newpage
 
-\section{Dataset Information}\label{anchor}
+\section{Dataset Information}\label{dataset-information}
 
 \begin{table}[H]
 \centering
@@ -215,54 +215,7 @@ SKOTESTreference the table in text: Table 1
 \section{Exploratory Data Analysis and
 Wrangling}\label{exploratory-data-analysis-and-wrangling}
 
-\subsection{Import \& Explore}\label{import-explore}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# import dataset}
-\NormalTok{ADC_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"../Raw_Data/CalRecycle_ADC_raw.csv"}\NormalTok{)}
-
-\CommentTok{# explore dataset}
-\KeywordTok{view}\NormalTok{(ADC_raw)}
-\KeywordTok{class}\NormalTok{(ADC_raw)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] "data.frame"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{colnames}\NormalTok{(ADC_raw)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##  [1] "Report.Year"                      
-##  [2] "Report.Quarter"                   
-##  [3] "Ash"                              
-##  [4] "Auto.Shredder.Waste"              
-##  [5] "Construction.and.Demolition.Waste"
-##  [6] "Compost"                          
-##  [7] "Contaminated.Sediment"            
-##  [8] "Green.Material"                   
-##  [9] "Mixed"                            
-## [10] "Other"                            
-## [11] "Tires"                            
-## [12] "Sludge"                           
-## [13] "Total"
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{dim}\NormalTok{(ADC_raw)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 92 13
-\end{verbatim}
+\subsection{Data Wrangling}\label{data-wrangling}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -355,8 +308,15 @@ Wrangling}\label{exploratory-data-analysis-and-wrangling}
 \StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{Total) }\CommentTok{# remove Total column}
 
 \CommentTok{# save the tidy dataset}
-\KeywordTok{write.csv}\NormalTok{(ADC_data, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{file =} \StringTok{"../Processed_Data/CalRecycle_ADC_tidy_processed.csv"}\NormalTok{)}
+\KeywordTok{write.csv}\NormalTok{(ADC_data, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{, }
+          \DataTypeTok{file =} \StringTok{"../Processed_Data/CalRecycle_ADC_tidy_processed.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\subsection{Summary}\label{summary}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{# generate summary data}
 \NormalTok{ADC_summary_by_type <-}\StringTok{ }\NormalTok{ADC_gathered }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{group_by}\NormalTok{(Type) }\OperatorTok{%>%}\StringTok{ }\CommentTok{# group the data by lakename}
@@ -367,6 +327,49 @@ Wrangling}\label{exploratory-data-analysis-and-wrangling}
             \DataTypeTok{sdQuarterlyQuantity =} \KeywordTok{sd}\NormalTok{(Quantity), }
             \DataTypeTok{medianQuarterlyQuantity =} \KeywordTok{median}\NormalTok{(Quantity))}
 
+\NormalTok{ADC_summary_by_type_table <-}\StringTok{ }\KeywordTok{kable}\NormalTok{(ADC_summary_by_type, }
+  \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Waste Type"}\NormalTok{, }\StringTok{"Mean Quarterly Quantity"}\NormalTok{, }\StringTok{"Min Quarterly Quantity"}\NormalTok{, }
+  \StringTok{"Max Quarterly Quantity"}\NormalTok{, }\StringTok{"sd of Quarterly Quantity"}\NormalTok{, }
+  \StringTok{"Median Quarterly Quantity"}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{, }
+                                \StringTok{"full_width = F"}\NormalTok{), }\DataTypeTok{latex_options=}\StringTok{"scale_down"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{row_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{bold =}\NormalTok{ T)}
+\NormalTok{ADC_summary_by_type_table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[H]
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{l|r|r|r|r|r}
+\hline
+\textbf{Waste Type} & \textbf{Mean Quarterly Quantity} & \textbf{Min Quarterly Quantity} & \textbf{Max Quarterly Quantity} & \textbf{sd of Quarterly Quantity} & \textbf{Median Quarterly Quantity}\\
+\hline
+Ash & 11304.716 & 101.00 & 108208.23 & 17860.123 & 2675.035\\
+\hline
+Auto.Shredder.Waste & 121864.560 & 35573.00 & 215857.61 & 39655.164 & 123356.730\\
+\hline
+Compost & 3451.346 & 0.00 & 42215.62 & 6437.880 & 816.520\\
+\hline
+Construction.and.Demolition.Waste & 122445.102 & 2693.48 & 281972.47 & 58940.701 & 125469.485\\
+\hline
+Contaminated.Sediment & 11632.401 & 0.00 & 102850.25 & 20862.617 & 873.295\\
+\hline
+Green.Material & 464016.026 & 191066.26 & 797463.76 & 137342.174 & 431369.340\\
+\hline
+Mixed & 6929.398 & 0.00 & 99288.87 & 12855.562 & 3618.210\\
+\hline
+Other & 45163.726 & 1008.27 & 149415.30 & 33034.798 & 47919.710\\
+\hline
+Sludge & 73697.705 & 23812.68 & 147167.22 & 23765.135 & 72039.815\\
+\hline
+Tires & 6544.532 & 733.71 & 29842.28 & 5735.144 & 4353.135\\
+\hline
+\end{tabular}}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{ADC_summary_by_year <-}\StringTok{ }\NormalTok{ADC_gathered }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{group_by}\NormalTok{(Report.Year) }\OperatorTok{%>%}\StringTok{ }\CommentTok{# group the data by year}
 \StringTok{  }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(Quantity)) }\OperatorTok{%>%}\StringTok{ }\CommentTok{#remove the records when there are nas Quantity}
@@ -375,103 +378,89 @@ Wrangling}\label{exploratory-data-analysis-and-wrangling}
             \DataTypeTok{MaxQuarterlyQuantity =} \KeywordTok{max}\NormalTok{(Quantity), }
             \DataTypeTok{sdQuarterlyQuantity =} \KeywordTok{sd}\NormalTok{(Quantity), }
             \DataTypeTok{medianQuarterlyQuantity =} \KeywordTok{median}\NormalTok{(Quantity))}
+
+\NormalTok{ADC_summary_by_year_table <-}\StringTok{ }\KeywordTok{kable}\NormalTok{(ADC_summary_by_year, }
+  \DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Year"}\NormalTok{, }\StringTok{"Mean Quarterly Quantity"}\NormalTok{, }\StringTok{"Min Quarterly Quantity"}\NormalTok{, }
+  \StringTok{"Max Quarterly Quantity"}\NormalTok{, }\StringTok{"sd of Quarterly Quantity"}\NormalTok{, }
+  \StringTok{"Median Quarterly Quantity"}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{, }
+                                \StringTok{"full_width = F"}\NormalTok{), }\DataTypeTok{latex_options=}\StringTok{"scale_down"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{row_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{bold =}\NormalTok{ T) }
+\NormalTok{ADC_summary_by_year_table}
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Create Graphs}\label{create-graphs}
+\begin{table}[H]
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{r|r|r|r|r|r}
+\hline
+\textbf{Year} & \textbf{Mean Quarterly Quantity} & \textbf{Min Quarterly Quantity} & \textbf{Max Quarterly Quantity} & \textbf{sd of Quarterly Quantity} & \textbf{Median Quarterly Quantity}\\
+\hline
+1998 & 41774.55 & 0.00 & 313452.3 & 82508.86 & 3685.075\\
+\hline
+1999 & 54320.11 & 0.00 & 383358.8 & 103282.44 & 4657.845\\
+\hline
+2000 & 72004.54 & 0.00 & 437691.8 & 124324.24 & 12219.725\\
+\hline
+2001 & 80768.84 & 0.00 & 550962.5 & 147577.35 & 10910.315\\
+\hline
+2002 & 81108.82 & 0.00 & 572016.4 & 162476.47 & 8921.990\\
+\hline
+2003 & 86182.39 & 0.00 & 704649.9 & 178905.18 & 8734.895\\
+\hline
+2004 & 94959.32 & 0.00 & 680872.4 & 193691.28 & 22845.585\\
+\hline
+2005 & 116741.86 & 0.00 & 797463.8 & 223003.44 & 11838.200\\
+\hline
+2006 & 105499.79 & 0.00 & 731872.6 & 196767.51 & 19307.055\\
+\hline
+2007 & 98051.49 & 0.00 & 592911.4 & 169159.05 & 33313.725\\
+\hline
+2008 & 104818.28 & 93.00 & 587091.4 & 164134.03 & 45992.905\\
+\hline
+2009 & 83490.23 & 264.00 & 461620.7 & 130916.23 & 31683.365\\
+\hline
+2010 & 87194.48 & 21.59 & 457554.9 & 125910.72 & 36318.670\\
+\hline
+2011 & 103442.44 & 90.18 & 448355.7 & 128119.69 & 60689.255\\
+\hline
+2012 & 87318.52 & 228.26 & 445240.2 & 120284.80 & 49674.030\\
+\hline
+2013 & 82700.26 & 31.08 & 395495.6 & 107155.27 & 52122.570\\
+\hline
+2014 & 85596.00 & 0.00 & 343124.0 & 97936.53 & 57852.960\\
+\hline
+2015 & 87924.03 & 0.00 & 359753.1 & 105114.41 & 49599.195\\
+\hline
+2016 & 88695.99 & 0.00 & 340147.2 & 96515.24 & 59193.530\\
+\hline
+2017 & 91507.06 & 0.00 & 401034.3 & 113972.21 & 47072.205\\
+\hline
+\end{tabular}}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Graph 1: for 2017 data, display total by type}
-\NormalTok{total_bytype_}\DecValTok{2017}\NormalTok{ <-}\StringTok{ }\NormalTok{ADC_gathered }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{filter}\NormalTok{(Report.Year }\OperatorTok{==}\StringTok{ }\DecValTok{2017}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(Type) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{Quantity =} \KeywordTok{sum}\NormalTok{(Quantity))}
+\subsection{Exploratory Graphs}\label{exploratory-graphs}
 
-\CommentTok{# save 2017 dataset}
-\KeywordTok{write.csv}\NormalTok{(total_bytype_}\DecValTok{2017}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{file =} \StringTok{"../Processed_Data/CalRecycle_ADC_2017only_processed.csv"}\NormalTok{)}
+\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs2-1.pdf}
 
-\CommentTok{# convert column Type into factor}
-\KeywordTok{class}\NormalTok{(total_bytype_}\DecValTok{2017}\OperatorTok{$}\NormalTok{Type)}
-\end{Highlighting}
-\end{Shaded}
+sko description graph1
 
-\begin{verbatim}
-## [1] "character"
-\end{verbatim}
+\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs3-1.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{total_bytype_}\DecValTok{2017}\OperatorTok{$}\NormalTok{Type <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(total_bytype_}\DecValTok{2017}\OperatorTok{$}\NormalTok{Type)}
+sko description graph2
 
-\CommentTok{# plot as a bar chart}
-\NormalTok{total_bytype_2017_plot <-}\StringTok{ }
-\StringTok{    }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{total_bytype_}\DecValTok{2017}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Type, }\DataTypeTok{y=}\NormalTok{Quantity)) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{    }\KeywordTok{xlab}\NormalTok{(}\StringTok{''}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{    }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Quantity (U.S. Tons)"}\NormalTok{) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"2017 Quantities of ADC by Type"}\NormalTok{) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{45}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
-\StringTok{    }\KeywordTok{scale_x_discrete}\NormalTok{(}\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'Ash'}\NormalTok{,}\StringTok{'Auto Shredder Waste'}\NormalTok{,}\StringTok{'Compost'}\NormalTok{, }\StringTok{'Construction & Demolition Waste'}\NormalTok{, }\StringTok{'Contaminated Sediment'}\NormalTok{, }\StringTok{'Green Material'}\NormalTok{, }\StringTok{'Mixed'}\NormalTok{, }\StringTok{'Other'}\NormalTok{, }\StringTok{'Sludge'}\NormalTok{, }\StringTok{'Tires'}\NormalTok{))}
-\KeywordTok{print}\NormalTok{(total_bytype_2017_plot)}
-\end{Highlighting}
-\end{Shaded}
+\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs4-1.pdf}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"2017ADCbytype_alltypes.jpg"}\NormalTok{, total_bytype_2017_plot, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-
-\CommentTok{# Graph 2: faceted by Type, display spread of quarterly values by year}
-\NormalTok{quarterlyvalues_byyear_plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(ADC_gathered) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Report.Year, }\DataTypeTok{y =}\NormalTok{ Quantity, }\DataTypeTok{group =}\NormalTok{ Report.Year)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\KeywordTok{vars}\NormalTok{(Type), }\DataTypeTok{nrow =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Quarterly Quantity (U.S. Tons)"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Quarterly Quantities of ADC, Grouped by Year"}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(quarterlyvalues_byyear_plot)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs-2.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"ADCyeardistribution_alltypes.jpg"}\NormalTok{, quarterlyvalues_byyear_plot, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{8}\NormalTok{, }\DataTypeTok{width =} \DecValTok{8}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-
-\CommentTok{# Graph 3: display data by quarter, all Types on same plot}
-\NormalTok{quarterlyvalues_alltypes_plot <-}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(ADC_gathered) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Report.Quarter, }\DataTypeTok{y =}\NormalTok{ Quantity, }\DataTypeTok{shape =} \KeywordTok{as.factor}\NormalTok{(Type), }\DataTypeTok{color =} \KeywordTok{as.factor}\NormalTok{(Report.Year)), }\DataTypeTok{width =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{height =} \DecValTok{0}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{shape=}\StringTok{"Type"}\NormalTok{, }\DataTypeTok{colour=}\StringTok{"Year"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Quarter"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Quantity (U.S. Tons)"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Quantities Within Quarters"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{scale_shape_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{10}\NormalTok{), }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Ash"}\NormalTok{, }\StringTok{"Auto Shredder Waste"}\NormalTok{, }\StringTok{"Compost"}\NormalTok{, }\StringTok{"Construction & Demolition"}\NormalTok{, }\StringTok{"Contaminated Sediment"}\NormalTok{, }\StringTok{"Green Material"}\NormalTok{, }\StringTok{"Mixed"}\NormalTok{, }\StringTok{"Other"}\NormalTok{, }\StringTok{"Sludge"}\NormalTok{, }\StringTok{"Tires"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\StringTok{"right"}\NormalTok{, }\DataTypeTok{legend.box =} \StringTok{"vertical"}\NormalTok{, }\DataTypeTok{legend.direction =} \StringTok{"vertical"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{guides}\NormalTok{(}\DataTypeTok{shape =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{order =} \DecValTok{1}\NormalTok{), }\DataTypeTok{color =} \KeywordTok{guide_legend}\NormalTok{(}\DataTypeTok{order =} \DecValTok{2}\NormalTok{))}
-\KeywordTok{print}\NormalTok{(quarterlyvalues_alltypes_plot)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs-3.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"QuarterlyADC_alltypes.jpg"}\NormalTok{, quarterlyvalues_alltypes_plot, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{9}\NormalTok{, }\DataTypeTok{width =} \DecValTok{9}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+sko description graph 3
 
 \newpage
 
-\section{Analysis}\label{analysis}
+\section{Analysis: Statistical Modeling \& Data
+Visualization}\label{analysis-statistical-modeling-data-visualization}
 
-\subsection{Test 1: Statistical Modeling \& Data
-Visualization}\label{test-1-statistical-modeling-data-visualization}
+\subsection{Test 1: Difference Between Report Quarters -
+Analysis}\label{test-1-difference-between-report-quarters---analysis}
 
 Is there a significant difference in total ADC between report quarters?
 (i.e.~1, 2, 3, 4)
@@ -568,7 +557,7 @@ Is there a significant difference in total ADC between report quarters?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test1-1.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test1_1-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -576,7 +565,7 @@ Is there a significant difference in total ADC between report quarters?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test1-2.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test1_1-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -586,7 +575,7 @@ Is there a significant difference in total ADC between report quarters?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test1-3.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test1_1-3.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -610,7 +599,7 @@ Is there a significant difference in total ADC between report quarters?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test1-4.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test1_1-4.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -677,29 +666,13 @@ Is there a significant difference in total ADC between report quarters?
 ## 6      3 - 4  0.84482693 0.39820748 1.0000000
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# plot the results}
-\NormalTok{ADC_quarter_plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(ADC_total_only, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Report.Quarter, }\DataTypeTok{y =}\NormalTok{ Total)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_violin}\NormalTok{(}\DataTypeTok{draw_quantiles =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{'Report Quarter'}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{'Quantity (U.S. Tons)'}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{'ADC Quantities by Quarter'}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(ADC_quarter_plot)}
-\end{Highlighting}
-\end{Shaded}
+\subsubsection{Test 1: Difference Between Report Quarters -
+Result}\label{test-1-difference-between-report-quarters---result}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test1-5.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test1_2-1.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"QuarterlyADC_violinplot.jpg"}\NormalTok{, ADC_quarter_plot, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Test 2: Statistical Modeling \& Data
-Visualization}\label{test-2-statistical-modeling-data-visualization}
+\subsection{Test 2: Linear Model -
+Analysis}\label{test-2-linear-model---analysis}
 
 Can total annual ADC be represented with a linear model?
 
@@ -741,7 +714,7 @@ Can total annual ADC be represented with a linear model?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test2-1.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test2_1-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -796,54 +769,16 @@ Can total annual ADC be represented with a linear model?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test2-2.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test2_1-2.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# plot data w/ model}
-\NormalTok{ADC_fulldate_plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(ADC_fulldate, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Quarter.End.Date, }\DataTypeTok{y =}\NormalTok{ Total)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{intercept =} \OperatorTok{-}\FloatTok{190264.58}\NormalTok{, }\DataTypeTok{slope =} \FloatTok{73.14}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{''}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{'Quarterly Quantity (U.S. Tons)'}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{'Quarterly Quantities of ADC'}\NormalTok{) }
-\KeywordTok{print}\NormalTok{(ADC_fulldate_plot)}
-\end{Highlighting}
-\end{Shaded}
+\subsubsection{Test 2: Linear Model -
+Result}\label{test-2-linear-model---result}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test2-3.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test2_2-1.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test2_2-2.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# visually, model does not appear to be a great fit}
-
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"TotalADC_plot_calculatedmodel.jpg"}\NormalTok{, ADC_fulldate_plot, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-
-\CommentTok{# plot with loess smoother}
-\NormalTok{ADC_fulldate_plot_loess <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(ADC_fulldate, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Quarter.End.Date, }\DataTypeTok{y =}\NormalTok{ Total)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =}\NormalTok{ loess) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{''}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{'Quarterly Quantity (U.S. Tons)'}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{'Quarterly Quantities of ADC'}\NormalTok{) }
-\KeywordTok{print}\NormalTok{(ADC_fulldate_plot_loess)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SKo_Project_Template_files/figure-latex/Test2-4.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# visually, model appears to be a great fit}
-
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"TotalADC_plot_loess.jpg"}\NormalTok{, ADC_fulldate_plot_loess, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{Test 3: Statistical Modeling \& Data
-Visualization}\label{test-3-statistical-modeling-data-visualization}
+\subsection{Test 3: Changepoint in Construction \& Demolition -
+Analysis}\label{test-3-changepoint-in-construction-demolition---analysis}
 
 Is there a changepoint in the Construction \& Demolition quantities over
 time?
@@ -874,7 +809,7 @@ time?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test3-1.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test3_1-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -901,7 +836,7 @@ time?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test3-2.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test3_1-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -909,7 +844,7 @@ time?
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test3-3.pdf}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test3_1-3.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1031,30 +966,13 @@ time?
 \CommentTok{# years corresponding to changepoints}
 \NormalTok{changepoint1 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{40}\NormalTok{] }\CommentTok{# between Q4 2007 & Q1 2008 = ~ 2008-02-14}
 \NormalTok{changepoint2 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{68}\NormalTok{] }\CommentTok{# between Q4 2014 & Q1 2015 = ~ 2015-02-14}
-
-\CommentTok{# Add vertical lines to the original graph to represent change points}
-\NormalTok{CD_plot_changepoints <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(CD_only, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Quarter.End.Date, }\DataTypeTok{y=}\NormalTok{Construction.and.Demolition.Waste)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{xintercept=}\KeywordTok{as.Date}\NormalTok{(}\StringTok{'2008-02-14'}\NormalTok{)), }\DataTypeTok{linetype=}\DecValTok{2}\NormalTok{, }\DataTypeTok{colour=}\StringTok{"purple"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{1}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{xintercept=}\KeywordTok{as.Date}\NormalTok{(}\StringTok{'2015-02-14'}\NormalTok{)), }\DataTypeTok{linetype=}\DecValTok{4}\NormalTok{, }\DataTypeTok{colour=}\StringTok{"blue"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{1}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.Date}\NormalTok{(}\StringTok{'2010-1-1'}\NormalTok{), }\DataTypeTok{y=}\DecValTok{260000}\NormalTok{, }\DataTypeTok{label=}\NormalTok{stringr}\OperatorTok{::}\KeywordTok{str_wrap}\NormalTok{(}\StringTok{'changepoint1: Q4,2007-Q1,2008'}\NormalTok{, }\DecValTok{15}\NormalTok{), }\DataTypeTok{colour=}\StringTok{"purple"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.Date}\NormalTok{(}\StringTok{'2017-1-1'}\NormalTok{), }\DataTypeTok{y=}\DecValTok{260000}\NormalTok{, }\DataTypeTok{label=}\NormalTok{stringr}\OperatorTok{::}\KeywordTok{str_wrap}\NormalTok{(}\StringTok{'changepoint2: Q4,2014-Q1,2015'}\NormalTok{, }\DecValTok{15}\NormalTok{), }\DataTypeTok{colour=}\StringTok{"blue"}\NormalTok{, }\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{''}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{'Quarterly C&D Cover (U.S. Tons)'}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{labels =}\NormalTok{ scales}\OperatorTok{::}\NormalTok{comma) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{'Construction & Demolition Landfill Cover in CA'}\NormalTok{)}
-\KeywordTok{print}\NormalTok{(CD_plot_changepoints)  }
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/Test3-4.pdf}
+\subsubsection{Test 3: Changepoint in Construction \& Demolition -
+Result}\label{test-3-changepoint-in-construction-demolition---result}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# save figure}
-\KeywordTok{ggsave}\NormalTok{(}\StringTok{"CD_plot_changepoints.jpg"}\NormalTok{, CD_plot_changepoints, }\DataTypeTok{path =} \StringTok{"../Output"}\NormalTok{, }\DataTypeTok{height =} \DecValTok{4}\NormalTok{, }\DataTypeTok{width =} \DecValTok{11}\NormalTok{, }\DataTypeTok{units =} \StringTok{"in"}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\includegraphics{SKo_Project_Template_files/figure-latex/Test3_2-1.pdf}
 
 \newpage
 
