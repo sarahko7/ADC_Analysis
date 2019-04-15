@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.1.16)  15 APR 2019 16:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.1.16)  15 APR 2019 16:40
 entering extended mode
 **./SKo_Project_Template.tex
 (SKo_Project_Template.tex
@@ -1071,47 +1071,47 @@ Package xcolor Warning: Incompatible color definition on input line 477.
 Package xcolor Warning: Incompatible color definition on input line 483.
 
 
-Package xcolor Warning: Incompatible color definition on input line 497.
+Package xcolor Warning: Incompatible color definition on input line 499.
 
 
-Package xcolor Warning: Incompatible color definition on input line 497.
+Package xcolor Warning: Incompatible color definition on input line 499.
 
 
-Package xcolor Warning: Incompatible color definition on input line 507.
+Package xcolor Warning: Incompatible color definition on input line 509.
 
 
-Package xcolor Warning: Incompatible color definition on input line 511.
+Package xcolor Warning: Incompatible color definition on input line 514.
 
 
-Package xcolor Warning: Incompatible color definition on input line 511.
+Package xcolor Warning: Incompatible color definition on input line 514.
 
 
-Package xcolor Warning: Incompatible color definition on input line 521.
+Package xcolor Warning: Incompatible color definition on input line 524.
 
 
-Package xcolor Warning: Incompatible color definition on input line 525.
+Package xcolor Warning: Incompatible color definition on input line 529.
 
 
-Package xcolor Warning: Incompatible color definition on input line 525.
-
-
-Package xcolor Warning: Incompatible color definition on input line 535.
+Package xcolor Warning: Incompatible color definition on input line 529.
 
 [13]
 
 Package xcolor Warning: Incompatible color definition on input line 539.
 
 
-Package xcolor Warning: Incompatible color definition on input line 539.
+Package xcolor Warning: Incompatible color definition on input line 544.
 
 
-Package xcolor Warning: Incompatible color definition on input line 549.
+Package xcolor Warning: Incompatible color definition on input line 544.
 
 
-Package xcolor Warning: Incompatible color definition on input line 558.
+Package xcolor Warning: Incompatible color definition on input line 554.
 
 
-Package xcolor Warning: Incompatible color definition on input line 558.
+Package xcolor Warning: Incompatible color definition on input line 565.
+
+
+Package xcolor Warning: Incompatible color definition on input line 565.
 
 <SKo_Project_Template_files/figure-latex/Test1_1-1.pdf, id=159, 469.755pt x 325
 .215pt>
@@ -1119,34 +1119,34 @@ File: SKo_Project_Template_files/figure-latex/Test1_1-1.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test1_1-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test1_1-1.pdf 
- used on input line 560.
+ used on input line 567.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 562.
+Package xcolor Warning: Incompatible color definition on input line 569.
+
+[14 <./SKo_Project_Template_files/figure-latex/Test1_1-1.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 573.
 
 
-Package xcolor Warning: Incompatible color definition on input line 566.
+Package xcolor Warning: Incompatible color definition on input line 573.
 
-
-Package xcolor Warning: Incompatible color definition on input line 566.
-
-<SKo_Project_Template_files/figure-latex/Test1_1-2.pdf, id=160, 469.755pt x 325
+<SKo_Project_Template_files/figure-latex/Test1_1-2.pdf, id=169, 469.755pt x 325
 .215pt>
 File: SKo_Project_Template_files/figure-latex/Test1_1-2.pdf Graphic file (type 
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test1_1-2.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test1_1-2.pdf 
- used on input line 568.
+ used on input line 575.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 570.
-
-[14 <./SKo_Project_Template_files/figure-latex/Test1_1-1.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 576.
+Package xcolor Warning: Incompatible color definition on input line 577.
 
 
-Package xcolor Warning: Incompatible color definition on input line 576.
+Package xcolor Warning: Incompatible color definition on input line 586.
+
+
+Package xcolor Warning: Incompatible color definition on input line 586.
 
 <SKo_Project_Template_files/figure-latex/Test1_1-3.pdf, id=170, 469.755pt x 325
 .215pt>
@@ -1154,31 +1154,31 @@ File: SKo_Project_Template_files/figure-latex/Test1_1-3.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test1_1-3.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test1_1-3.pdf 
- used on input line 578.
+ used on input line 588.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 580.
+Package xcolor Warning: Incompatible color definition on input line 590.
 
 [15 <./SKo_Project_Template_files/figure-latex/Test1_1-2.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 584.
+Package xcolor Warning: Incompatible color definition on input line 594.
 
 
-Package xcolor Warning: Incompatible color definition on input line 584.
+Package xcolor Warning: Incompatible color definition on input line 594.
 
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 592
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 602
 .
 ("C:\Users\Sarah\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ts1lmtt.fd"
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
-Package xcolor Warning: Incompatible color definition on input line 594.
+Package xcolor Warning: Incompatible color definition on input line 604.
 
 
-Package xcolor Warning: Incompatible color definition on input line 600.
+Package xcolor Warning: Incompatible color definition on input line 611.
 
 
-Package xcolor Warning: Incompatible color definition on input line 600.
+Package xcolor Warning: Incompatible color definition on input line 611.
 
 <SKo_Project_Template_files/figure-latex/Test1_1-4.pdf, id=181, 469.755pt x 325
 .215pt>
@@ -1186,54 +1186,54 @@ File: SKo_Project_Template_files/figure-latex/Test1_1-4.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test1_1-4.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test1_1-4.pdf 
- used on input line 602.
+ used on input line 613.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 604.
+Package xcolor Warning: Incompatible color definition on input line 615.
 
 [16 <./SKo_Project_Template_files/figure-latex/Test1_1-3.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 608.
+Package xcolor Warning: Incompatible color definition on input line 619.
 
 
-Package xcolor Warning: Incompatible color definition on input line 608.
+Package xcolor Warning: Incompatible color definition on input line 619.
 
 
-Package xcolor Warning: Incompatible color definition on input line 618.
+Package xcolor Warning: Incompatible color definition on input line 629.
 
 
-Package xcolor Warning: Incompatible color definition on input line 625.
+Package xcolor Warning: Incompatible color definition on input line 636.
 
 
-Package xcolor Warning: Incompatible color definition on input line 625.
+Package xcolor Warning: Incompatible color definition on input line 636.
 
 
-Package xcolor Warning: Incompatible color definition on input line 635.
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 
-Package xcolor Warning: Incompatible color definition on input line 643.
+Package xcolor Warning: Incompatible color definition on input line 657.
 
 
-Package xcolor Warning: Incompatible color definition on input line 643.
+Package xcolor Warning: Incompatible color definition on input line 657.
 
 
-Package xcolor Warning: Incompatible color definition on input line 643.
+Package xcolor Warning: Incompatible color definition on input line 657.
 
 [17 <./SKo_Project_Template_files/figure-latex/Test1_1-4.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 643.
-
-
-Package xcolor Warning: Incompatible color definition on input line 643.
-
-
-Package xcolor Warning: Incompatible color definition on input line 653.
-
-
 Package xcolor Warning: Incompatible color definition on input line 657.
 
 
 Package xcolor Warning: Incompatible color definition on input line 657.
+
+
+Package xcolor Warning: Incompatible color definition on input line 667.
+
+
+Package xcolor Warning: Incompatible color definition on input line 671.
+
+
+Package xcolor Warning: Incompatible color definition on input line 671.
 
 <SKo_Project_Template_files/figure-latex/Test1_2-1.pdf, id=203, 469.755pt x 325
 .215pt>
@@ -1241,26 +1241,26 @@ File: SKo_Project_Template_files/figure-latex/Test1_2-1.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test1_2-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test1_2-1.pdf 
- used on input line 672.
+ used on input line 685.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Package xcolor Warning: Incompatible color definition on input line 679.
-
 [18 <./SKo_Project_Template_files/figure-latex/Test1_2-1.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 700.
+Package xcolor Warning: Incompatible color definition on input line 694.
 
 
-Package xcolor Warning: Incompatible color definition on input line 700.
+Package xcolor Warning: Incompatible color definition on input line 718.
 
 
-Package xcolor Warning: Incompatible color definition on input line 706.
+Package xcolor Warning: Incompatible color definition on input line 718.
 
 
-Package xcolor Warning: Incompatible color definition on input line 715.
+Package xcolor Warning: Incompatible color definition on input line 724.
 
 
-Package xcolor Warning: Incompatible color definition on input line 715.
+Package xcolor Warning: Incompatible color definition on input line 733.
+
+
+Package xcolor Warning: Incompatible color definition on input line 733.
 
 <SKo_Project_Template_files/figure-latex/Test2_1-1.pdf, id=213, 469.755pt x 325
 .215pt>
@@ -1268,36 +1268,36 @@ File: SKo_Project_Template_files/figure-latex/Test2_1-1.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test2_1-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test2_1-1.pdf 
- used on input line 717.
+ used on input line 735.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Package xcolor Warning: Incompatible color definition on input line 719.
-
-[19]
-
-Package xcolor Warning: Incompatible color definition on input line 725.
-
-
-Package xcolor Warning: Incompatible color definition on input line 725.
-
 
 Package xcolor Warning: Incompatible color definition on input line 737.
 
+[19]
 
-Package xcolor Warning: Incompatible color definition on input line 741.
+Package xcolor Warning: Incompatible color definition on input line 743.
 
 
-Package xcolor Warning: Incompatible color definition on input line 741.
+Package xcolor Warning: Incompatible color definition on input line 743.
+
+
+Package xcolor Warning: Incompatible color definition on input line 755.
+
+
+Package xcolor Warning: Incompatible color definition on input line 759.
+
+
+Package xcolor Warning: Incompatible color definition on input line 759.
 
 [20 <./SKo_Project_Template_files/figure-latex/Test2_1-1.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 764.
+Package xcolor Warning: Incompatible color definition on input line 782.
 
 
-Package xcolor Warning: Incompatible color definition on input line 770.
+Package xcolor Warning: Incompatible color definition on input line 791.
 
 
-Package xcolor Warning: Incompatible color definition on input line 770.
+Package xcolor Warning: Incompatible color definition on input line 791.
 
 <SKo_Project_Template_files/figure-latex/Test2_1-2.pdf, id=228, 469.755pt x 325
 .215pt>
@@ -1305,7 +1305,7 @@ File: SKo_Project_Template_files/figure-latex/Test2_1-2.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test2_1-2.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test2_1-2.pdf 
- used on input line 772.
+ used on input line 793.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <SKo_Project_Template_files/figure-latex/Test2_2-1.pdf, id=229, 469.755pt x 325
 .215pt>
@@ -1313,34 +1313,36 @@ File: SKo_Project_Template_files/figure-latex/Test2_2-1.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test2_2-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test2_2-1.pdf 
- used on input line 777.
+ used on input line 797.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<SKo_Project_Template_files/figure-latex/Test2_2-2.pdf, id=230, 469.755pt x 325
+[21 <./SKo_Project_Template_files/figure-latex/Test2_1-2.pdf>]
+<SKo_Project_Template_files/figure-latex/Test2_3-1.pdf, id=239, 469.755pt x 325
 .215pt>
-File: SKo_Project_Template_files/figure-latex/Test2_2-2.pdf Graphic file (type 
+File: SKo_Project_Template_files/figure-latex/Test2_3-1.pdf Graphic file (type 
 pdf)
-<use SKo_Project_Template_files/figure-latex/Test2_2-2.pdf>
-Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test2_2-2.pdf 
- used on input line 778.
+<use SKo_Project_Template_files/figure-latex/Test2_3-1.pdf>
+Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test2_3-1.pdf 
+ used on input line 801.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[22 <./SKo_Project_Template_files/figure-latex/Test2_2-1.pdf>]
 
-Underfull \hbox (badness 10000) in paragraph at lines 777--779
-[]
- []
-
-[21 <./SKo_Project_Template_files/figure-latex/Test2_1-2.pdf>] [22]
-Overfull \vbox (21.74803pt too high) has occurred while \output is active []
-
-[23 <./SKo_Project_Template_files/figure-latex/Test2_2-1.pdf> <./SKo_Project_Te
-mplate_files/figure-latex/Test2_2-2.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 786.
+Package xcolor Warning: Incompatible color definition on input line 811.
 
 
-Package xcolor Warning: Incompatible color definition on input line 810.
+Package xcolor Warning: Incompatible color definition on input line 836.
 
 
-Package xcolor Warning: Incompatible color definition on input line 810.
+Package xcolor Warning: Incompatible color definition on input line 836.
+
+
+Package xcolor Warning: Incompatible color definition on input line 836.
+
+[23 <./SKo_Project_Template_files/figure-latex/Test2_3-1.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 836.
+
+
+Package xcolor Warning: Incompatible color definition on input line 836.
 
 <SKo_Project_Template_files/figure-latex/Test3_1-1.pdf, id=261, 469.755pt x 325
 .215pt>
@@ -1348,142 +1350,168 @@ File: SKo_Project_Template_files/figure-latex/Test3_1-1.pdf Graphic file (type
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test3_1-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test3_1-1.pdf 
- used on input line 812.
+ used on input line 838.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 814.
-
-[24]
-
-Package xcolor Warning: Incompatible color definition on input line 819.
+Package xcolor Warning: Incompatible color definition on input line 840.
 
 
-Package xcolor Warning: Incompatible color definition on input line 819.
+Package xcolor Warning: Incompatible color definition on input line 845.
 
 
-Package xcolor Warning: Incompatible color definition on input line 829.
+Package xcolor Warning: Incompatible color definition on input line 845.
 
 
-Package xcolor Warning: Incompatible color definition on input line 837.
+Package xcolor Warning: Incompatible color definition on input line 855.
 
 
-Package xcolor Warning: Incompatible color definition on input line 837.
+Package xcolor Warning: Incompatible color definition on input line 865.
 
-<SKo_Project_Template_files/figure-latex/Test3_1-2.pdf, id=266, 469.755pt x 325
+
+Package xcolor Warning: Incompatible color definition on input line 865.
+
+
+Underfull \vbox (badness 1472) detected at line 865
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 865.
+
+[24 <./SKo_Project_Template_files/figure-latex/Test3_1-1.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 865.
+
+
+Package xcolor Warning: Incompatible color definition on input line 865.
+
+<SKo_Project_Template_files/figure-latex/Test3_1-2.pdf, id=271, 469.755pt x 325
 .215pt>
 File: SKo_Project_Template_files/figure-latex/Test3_1-2.pdf Graphic file (type 
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test3_1-2.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test3_1-2.pdf 
- used on input line 839.
+ used on input line 867.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 841.
-
-[25 <./SKo_Project_Template_files/figure-latex/Test3_1-1.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 845.
+Package xcolor Warning: Incompatible color definition on input line 869.
 
 
-Package xcolor Warning: Incompatible color definition on input line 845.
+Package xcolor Warning: Incompatible color definition on input line 874.
 
-<SKo_Project_Template_files/figure-latex/Test3_1-3.pdf, id=277, 469.755pt x 325
+
+Package xcolor Warning: Incompatible color definition on input line 874.
+
+<SKo_Project_Template_files/figure-latex/Test3_1-3.pdf, id=272, 469.755pt x 325
 .215pt>
 File: SKo_Project_Template_files/figure-latex/Test3_1-3.pdf Graphic file (type 
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test3_1-3.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test3_1-3.pdf 
- used on input line 847.
+ used on input line 876.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package xcolor Warning: Incompatible color definition on input line 849.
+Package xcolor Warning: Incompatible color definition on input line 878.
 
-[26 <./SKo_Project_Template_files/figure-latex/Test3_1-2.pdf>]
+[25 <./SKo_Project_Template_files/figure-latex/Test3_1-2.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 854.
-
-
-Package xcolor Warning: Incompatible color definition on input line 854.
+Package xcolor Warning: Incompatible color definition on input line 884.
 
 
-Package xcolor Warning: Incompatible color definition on input line 868.
+Package xcolor Warning: Incompatible color definition on input line 884.
 
 
-Package xcolor Warning: Incompatible color definition on input line 873.
+Package xcolor Warning: Incompatible color definition on input line 898.
 
 
-Package xcolor Warning: Incompatible color definition on input line 873.
-
-[27 <./SKo_Project_Template_files/figure-latex/Test3_1-3.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 887.
+Package xcolor Warning: Incompatible color definition on input line 903.
 
 
-Package xcolor Warning: Incompatible color definition on input line 891.
+Package xcolor Warning: Incompatible color definition on input line 903.
+
+[26 <./SKo_Project_Template_files/figure-latex/Test3_1-3.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 917.
 
 
-Package xcolor Warning: Incompatible color definition on input line 891.
+Package xcolor Warning: Incompatible color definition on input line 921.
 
 
-Package xcolor Warning: Incompatible color definition on input line 905.
+Package xcolor Warning: Incompatible color definition on input line 921.
 
 
-Package xcolor Warning: Incompatible color definition on input line 910.
+Package xcolor Warning: Incompatible color definition on input line 935.
 
 
-Package xcolor Warning: Incompatible color definition on input line 910.
+Package xcolor Warning: Incompatible color definition on input line 940.
 
 
-Package xcolor Warning: Incompatible color definition on input line 924.
+Package xcolor Warning: Incompatible color definition on input line 940.
 
 
-Package xcolor Warning: Incompatible color definition on input line 931.
+Package xcolor Warning: Incompatible color definition on input line 954.
 
 
-Package xcolor Warning: Incompatible color definition on input line 931.
+Package xcolor Warning: Incompatible color definition on input line 961.
 
 
-Package xcolor Warning: Incompatible color definition on input line 945.
+Package xcolor Warning: Incompatible color definition on input line 961.
 
 
-Package xcolor Warning: Incompatible color definition on input line 950.
+Package xcolor Warning: Incompatible color definition on input line 975.
 
 
-Package xcolor Warning: Incompatible color definition on input line 950.
-
-[28]
-
-Package xcolor Warning: Incompatible color definition on input line 964.
+Package xcolor Warning: Incompatible color definition on input line 982.
 
 
-Package xcolor Warning: Incompatible color definition on input line 970.
+Package xcolor Warning: Incompatible color definition on input line 982.
 
 
-Package xcolor Warning: Incompatible color definition on input line 970.
+Underfull \vbox (badness 1102) detected at line 982
+ []
 
-<SKo_Project_Template_files/figure-latex/Test3_2-1.pdf, id=302, 469.755pt x 325
-.215pt>
+
+Package xcolor Warning: Incompatible color definition on input line 982.
+
+[27]
+
+Package xcolor Warning: Incompatible color definition on input line 982.
+
+
+Package xcolor Warning: Incompatible color definition on input line 982.
+
+
+Package xcolor Warning: Incompatible color definition on input line 996.
+
+
+Package xcolor Warning: Incompatible color definition on input line 1006.
+
+
+Package xcolor Warning: Incompatible color definition on input line 1006.
+
+<SKo_Project_Template_files/figure-latex/Test3_2-1.pdf, id=298, 469.755pt x 361
+.35pt>
 File: SKo_Project_Template_files/figure-latex/Test3_2-1.pdf Graphic file (type 
 pdf)
 <use SKo_Project_Template_files/figure-latex/Test3_2-1.pdf>
 Package pdftex.def Info: SKo_Project_Template_files/figure-latex/Test3_2-1.pdf 
- used on input line 975.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[29 <./SKo_Project_Template_files/figure-latex/Test3_2-1.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 982.
+ used on input line 1010.
+(pdftex.def)             Requested size: 469.75386pt x 361.34912pt.
+[28] [29 <./SKo_Project_Template_files/figure-latex/Test3_2-1.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1019.
 [30]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 982.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1019.
 (SKo_Project_Template.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 982.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 982.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1019.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1019.
+
 Package rerunfilecheck Info: File `SKo_Project_Template.out' has not changed.
-(rerunfilecheck)             Checksum: BCE71B571305A18791132F3E11C2C8A5;3367.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 982.
+(rerunfilecheck)             Checksum: FA5ECCBDD79E10A07D434E6CFA6E3E06;2847.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1019.
  ) 
 Here is how much of TeX's memory you used:
  14897 strings out of 492946
- 223138 string characters out of 3126266
- 352139 words of memory out of 3000000
+ 223045 string characters out of 3126266
+ 352044 words of memory out of 3000000
  18462 multiletter control sequences out of 15000+200000
  63256 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1500,7 +1528,7 @@ e1/public/lm/lmri12.pfb><C:/Users/Sarah/AppData/Local/Programs/MiKTeX 2.9/fonts
 /type1/public/lm/lmtk10.pfb><C:/Users/Sarah/AppData/Local/Programs/MiKTeX 2.9/f
 onts/type1/public/lm/lmtt12.pfb><C:/Users/Sarah/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/public/lm/lmtti10.pfb>
-Output written on SKo_Project_Template.pdf (30 pages, 495806 bytes).
+Output written on SKo_Project_Template.pdf (30 pages, 495305 bytes).
 PDF statistics:
  362 PDF objects out of 1000 (max. 8388607)
  48 named destinations out of 1000 (max. 500000)

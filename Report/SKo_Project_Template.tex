@@ -485,14 +485,16 @@ Is there a significant difference in total ADC between report quarters?
 \NormalTok{ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter) }
 
 \CommentTok{# save the dataset}
-\KeywordTok{write.csv}\NormalTok{(ADC_total_only, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{file =} \StringTok{"../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv"}\NormalTok{)}
+\KeywordTok{write.csv}\NormalTok{(ADC_total_only, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{, }
+          \DataTypeTok{file =} \StringTok{"../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv"}\NormalTok{)}
 
 \CommentTok{# perform one-way ANOVA}
-\CommentTok{# assumption #0: observations are independent (cannot be tested, but assumed to be independent)}
+\CommentTok{# assumption #0: observations are independent }
+\CommentTok{#(cannot be tested, but assumed to be independent)}
 
 \CommentTok{# test assumption #1: normality}
 \CommentTok{# null hypothesis is that the dataset is normally distributed}
-\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{]) }\CommentTok{# p-value = 0.03312}
+\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -506,7 +508,8 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{]) }\CommentTok{# p-value = 0.02271}
+\CommentTok{# p-value = 0.03312}
+\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -520,7 +523,8 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{]) }\CommentTok{# p-value = 0.00993}
+\CommentTok{# p-value = 0.02271}
+\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -534,7 +538,8 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{]) }\CommentTok{# p-value = 0.001305}
+\CommentTok{# p-value = 0.00993}
+\KeywordTok{shapiro.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total[ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -548,6 +553,8 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# p-value = 0.001305}
+
 \NormalTok{ADC_freq_poly <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(ADC_total_only) }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_freqpoly}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Total, }\DataTypeTok{color =}\NormalTok{ Report.Quarter)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Quarterly Quantity (U.S. Tons)"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
@@ -561,7 +568,7 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{qqnorm}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total); }\KeywordTok{qqline}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total) }\CommentTok{# does not match 1:1 ratio}
+\KeywordTok{qqnorm}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total); }\KeywordTok{qqline}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -569,7 +576,10 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Try to fix departure from normality with ln of Total. Result is not improved, so keep non-transformed data}
+\CommentTok{# does not match 1:1 ratio}
+
+\CommentTok{# Try to fix departure from normality with ln of Total. }
+\CommentTok{#Result is not improved, so keep non-transformed data}
 \NormalTok{ADC_LogTotal <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(ADC_total_only, }\DataTypeTok{LogTotal =} \KeywordTok{log}\NormalTok{(Total))}
 \KeywordTok{qqnorm}\NormalTok{(ADC_LogTotal}\OperatorTok{$}\NormalTok{LogTotal); }\KeywordTok{qqline}\NormalTok{(ADC_LogTotal}\OperatorTok{$}\NormalTok{LogTotal)}
 \end{Highlighting}
@@ -593,7 +603,8 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Try to fix departure from normality with 1/Total. Result is not improved, so keep non-transformed data}
+\CommentTok{# Try to fix departure from normality with 1/Total. }
+\CommentTok{#Result is not improved, so keep non-transformed data}
 \NormalTok{ADC_InvTotal <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(ADC_total_only, }\DataTypeTok{InvTotal =} \DecValTok{1}\OperatorTok{/}\NormalTok{Total)}
 \KeywordTok{qqnorm}\NormalTok{(ADC_InvTotal}\OperatorTok{$}\NormalTok{InvTotal); }\KeywordTok{qqline}\NormalTok{(ADC_InvTotal}\OperatorTok{$}\NormalTok{InvTotal)}
 \end{Highlighting}
@@ -620,7 +631,7 @@ Is there a significant difference in total ADC between report quarters?
 \CommentTok{# test assumption #2: equal variances among groups}
 
 \CommentTok{# null hypothesis is that the variance is the same for the treatment groups}
-\KeywordTok{bartlett.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total }\OperatorTok{~}\StringTok{ }\NormalTok{ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter) }\CommentTok{#p-value = 0.9308 # df = 3 (statistical power is very low)}
+\KeywordTok{bartlett.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total }\OperatorTok{~}\StringTok{ }\NormalTok{ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -634,7 +645,10 @@ Is there a significant difference in total ADC between report quarters?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# dataset is not normal, but does fulfill requirement for same variances. proceed with non-parametric tests.}
+\CommentTok{#p-value = 0.9308 # df = 3 (statistical power is very low)}
+
+\CommentTok{# dataset is not normal, but does fulfill requirement for same variances.}
+\CommentTok{#proceed with non-parametric tests.}
 
 \CommentTok{# try non-parametric w/ post hoc, bc sample size is on the smaller end for parametric}
 \NormalTok{ADC_quarter_kw <-}\StringTok{ }\KeywordTok{kruskal.test}\NormalTok{(ADC_total_only}\OperatorTok{$}\NormalTok{Total }\OperatorTok{~}\StringTok{ }\NormalTok{ADC_total_only}\OperatorTok{$}\NormalTok{Report.Quarter)}
@@ -666,10 +680,11 @@ Is there a significant difference in total ADC between report quarters?
 ## 6      3 - 4  0.84482693 0.39820748 1.0000000
 \end{verbatim}
 
-\subsubsection{Test 1: Difference Between Report Quarters -
-Result}\label{test-1-difference-between-report-quarters---result}
+\subsubsection{Test 1: Result}\label{test-1-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test1_2-1.pdf}
+
+sko discussion of test 1
 
 \subsection{Test 2: Linear Model -
 Analysis}\label{test-2-linear-model---analysis}
@@ -678,7 +693,9 @@ Can total annual ADC be represented with a linear model?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# assumptions for lm (independent observation, normal distribution, equal variances among groups) checked in Test 1. data is not normal, but group variances are equal. proceed with lm}
+\CommentTok{# assumptions for lm (independent observation, normal distribution, }
+\CommentTok{#equal variances among groups) checked in Test 1. data is not normal, }
+\CommentTok{#but group variances are equal. proceed with lm}
 
 \CommentTok{# create dates corresponding to year & quarter combination}
 \CommentTok{# Q1: Mar 31}
@@ -687,7 +704,8 @@ Can total annual ADC be represented with a linear model?
 \CommentTok{# Q4: Dec 31}
 
 \CommentTok{# create dataframe of month-date}
-\NormalTok{quarters_to_dates <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\StringTok{"Quarter"}\NormalTok{ =}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{), }\StringTok{"Month.Date"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'3-31'}\NormalTok{, }\StringTok{'6-30'}\NormalTok{, }\StringTok{'9-30'}\NormalTok{, }\StringTok{'12-31'}\NormalTok{))}
+\NormalTok{quarters_to_dates <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\StringTok{"Quarter"}\NormalTok{ =}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{), }
+          \StringTok{"Month.Date"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'3-31'}\NormalTok{, }\StringTok{'6-30'}\NormalTok{, }\StringTok{'9-30'}\NormalTok{, }\StringTok{'12-31'}\NormalTok{))}
 
 \CommentTok{# create new dataframe with dates}
 \NormalTok{ADC_fulldate <-}\StringTok{ }\NormalTok{ADC_total_only }\OperatorTok{%>%}\StringTok{ }
@@ -736,7 +754,7 @@ Can total annual ADC be represented with a linear model?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(ADC_date_lm) }\CommentTok{# Adjusted R-squared:  0.4433 (date explains 44.33% of variation in total), p-value: 2.694e-13}
+\KeywordTok{summary}\NormalTok{(ADC_date_lm) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -763,6 +781,9 @@ Can total annual ADC be represented with a linear model?
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# Adjusted R-squared:  0.4433 (date explains 44.33% of variation in total),}
+\CommentTok{#p-value: 2.694e-13}
+
 \CommentTok{# check normality of residuals}
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \KeywordTok{plot}\NormalTok{(ADC_date_lm) }\CommentTok{# QQ of residuals looks relatively normal}
@@ -771,11 +792,15 @@ Can total annual ADC be represented with a linear model?
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test2_1-2.pdf}
 
-\subsubsection{Test 2: Linear Model -
-Result}\label{test-2-linear-model---result}
+\subsubsection{Test 2: Result}\label{test-2-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test2_2-1.pdf}
-\includegraphics{SKo_Project_Template_files/figure-latex/Test2_2-2.pdf}
+
+sko discussion of test 2
+
+\includegraphics{SKo_Project_Template_files/figure-latex/Test2_3-1.pdf}
+
+sko discussion of test 2\_loess
 
 \subsection{Test 3: Changepoint in Construction \& Demolition -
 Analysis}\label{test-3-changepoint-in-construction-demolition---analysis}
@@ -794,7 +819,8 @@ time?
 \StringTok{  }\KeywordTok{unite}\NormalTok{(}\StringTok{'Quarter.End.Date'}\NormalTok{, }\KeywordTok{c}\NormalTok{(Report.Year, Month.Date), }\DataTypeTok{sep =} \StringTok{"-"}\NormalTok{) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{Report.Quarter)}
 
-\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date, }\StringTok{'%Y-%m-%d'}\NormalTok{) }\CommentTok{# format column as date}
+\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date, }\StringTok{'%Y-%m-%d'}\NormalTok{) }
+\CommentTok{# format column as date}
 
 \CommentTok{# arrange data from oldest to newest}
 \NormalTok{CD_only <-}\StringTok{ }\NormalTok{CD_only }\OperatorTok{%>%}\StringTok{ }
@@ -814,7 +840,7 @@ time?
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# check normality for C&D waste specifically}
-\KeywordTok{shapiro.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste) }\CommentTok{# p-value = 0.4028, inferring that the data is normal}
+\KeywordTok{shapiro.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -828,6 +854,8 @@ time?
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# p-value = 0.4028, inferring that the data is normal}
+
 \KeywordTok{ggplot}\NormalTok{(CD_only) }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Construction.and.Demolition.Waste)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Quarterly C&D (U.S. Tons)"}\NormalTok{) }\OperatorTok{+}
@@ -840,7 +868,8 @@ time?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{qqnorm}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste); }\KeywordTok{qqline}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste) }\CommentTok{# matches 1:1 ratio pretty well}
+\KeywordTok{qqnorm}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste);}
+\KeywordTok{qqline}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste) }\CommentTok{# matches 1:1 ratio pretty well}
 \end{Highlighting}
 \end{Shaded}
 
@@ -848,7 +877,8 @@ time?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series. }
+\CommentTok{# use Pettitt's test (nonparametric) to determine whether there is a shift }
+\CommentTok{#in the central tendency of the time series. }
 \KeywordTok{pettitt.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste) }\CommentTok{# change point at time 40}
 \end{Highlighting}
 \end{Shaded}
@@ -926,7 +956,7 @@ time?
 \CommentTok{# position 27, so 41+27 = change point at time 68}
 
 \CommentTok{# Run separate Mann-Kendall for new section}
-\KeywordTok{mk.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste[}\DecValTok{69}\OperatorTok{:}\DecValTok{80}\NormalTok{]) }\CommentTok{# p-value = 0.9453, not likely a 3rd change point}
+\KeywordTok{mk.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste[}\DecValTok{69}\OperatorTok{:}\DecValTok{80}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -944,8 +974,10 @@ time?
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# p-value = 0.9453, not likely a 3rd change point}
+
 \CommentTok{# Is there a third change point?}
-\KeywordTok{pettitt.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste[}\DecValTok{69}\OperatorTok{:}\DecValTok{80}\NormalTok{]) }\CommentTok{# p-value = p-value = 1.261, no 3rd change point}
+\KeywordTok{pettitt.test}\NormalTok{(CD_only}\OperatorTok{$}\NormalTok{Construction.and.Demolition.Waste[}\DecValTok{69}\OperatorTok{:}\DecValTok{80}\NormalTok{]) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -963,16 +995,21 @@ time?
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# p-value = p-value = 1.261, no 3rd change point}
+
 \CommentTok{# years corresponding to changepoints}
-\NormalTok{changepoint1 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{40}\NormalTok{] }\CommentTok{# between Q4 2007 & Q1 2008 = ~ 2008-02-14}
-\NormalTok{changepoint2 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{68}\NormalTok{] }\CommentTok{# between Q4 2014 & Q1 2015 = ~ 2015-02-14}
+\NormalTok{changepoint1 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{40}\NormalTok{] }
+\CommentTok{# between Q4 2007 & Q1 2008 = ~ 2008-02-14}
+\NormalTok{changepoint2 <-}\StringTok{ }\NormalTok{CD_only}\OperatorTok{$}\NormalTok{Quarter.End.Date[}\DecValTok{68}\NormalTok{] }
+\CommentTok{# between Q4 2014 & Q1 2015 = ~ 2015-02-14}
 \end{Highlighting}
 \end{Shaded}
 
-\subsubsection{Test 3: Changepoint in Construction \& Demolition -
-Result}\label{test-3-changepoint-in-construction-demolition---result}
+\subsubsection{Test 3: Result}\label{test-3-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test3_2-1.pdf}
+
+sko discussion of test 3
 
 \newpage
 

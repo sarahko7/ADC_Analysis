@@ -304,17 +304,23 @@ class(ADC_total_only$Report.Quarter)
 ADC_total_only$Report.Quarter <- as.factor(ADC_total_only$Report.Quarter) 
 
 # save the dataset
-write.csv(ADC_total_only, row.names = FALSE, file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
+write.csv(ADC_total_only, row.names = FALSE, 
+          file = "../Processed_Data/CalRecycle_ADC_totalsonly_processed.csv")
 
 # perform one-way ANOVA
-# assumption #0: observations are independent (cannot be tested, but assumed to be independent)
+# assumption #0: observations are independent 
+#(cannot be tested, but assumed to be independent)
 
 # test assumption #1: normality
 # null hypothesis is that the dataset is normally distributed
-shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 1]) # p-value = 0.03312
-shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 2]) # p-value = 0.02271
-shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 3]) # p-value = 0.00993
-shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 4]) # p-value = 0.001305
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 1]) 
+# p-value = 0.03312
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 2]) 
+# p-value = 0.02271
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 3]) 
+# p-value = 0.00993
+shapiro.test(ADC_total_only$Total[ADC_total_only$Report.Quarter == 4]) 
+# p-value = 0.001305
 
 ADC_freq_poly <- ggplot(ADC_total_only) +
   geom_freqpoly(aes(x = Total, color = Report.Quarter)) + 
@@ -323,14 +329,17 @@ ADC_freq_poly <- ggplot(ADC_total_only) +
   ggtitle("Frequency of Quarterly Quantities")
 print(ADC_freq_poly) # appears to be left skewed
 
-qqnorm(ADC_total_only$Total); qqline(ADC_total_only$Total) # does not match 1:1 ratio
+qqnorm(ADC_total_only$Total); qqline(ADC_total_only$Total) 
+# does not match 1:1 ratio
 
-# Try to fix departure from normality with ln of Total. Result is not improved, so keep non-transformed data
+# Try to fix departure from normality with ln of Total. 
+#Result is not improved, so keep non-transformed data
 ADC_LogTotal <- mutate(ADC_total_only, LogTotal = log(Total))
 qqnorm(ADC_LogTotal$LogTotal); qqline(ADC_LogTotal$LogTotal)
 bartlett.test(ADC_LogTotal$LogTotal ~ ADC_LogTotal$Report.Quarter)
 
-# Try to fix departure from normality with 1/Total. Result is not improved, so keep non-transformed data
+# Try to fix departure from normality with 1/Total. 
+#Result is not improved, so keep non-transformed data
 ADC_InvTotal <- mutate(ADC_total_only, InvTotal = 1/Total)
 qqnorm(ADC_InvTotal$InvTotal); qqline(ADC_InvTotal$InvTotal)
 bartlett.test(ADC_InvTotal$InvTotal ~ ADC_InvTotal$Report.Quarter)
@@ -338,9 +347,11 @@ bartlett.test(ADC_InvTotal$InvTotal ~ ADC_InvTotal$Report.Quarter)
 # test assumption #2: equal variances among groups
 
 # null hypothesis is that the variance is the same for the treatment groups
-bartlett.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter) #p-value = 0.9308 # df = 3 (statistical power is very low)
+bartlett.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter) 
+#p-value = 0.9308 # df = 3 (statistical power is very low)
 
-# dataset is not normal, but does fulfill requirement for same variances. proceed with non-parametric tests.
+# dataset is not normal, but does fulfill requirement for same variances.
+#proceed with non-parametric tests.
 
 # try non-parametric w/ post hoc, bc sample size is on the smaller end for parametric
 ADC_quarter_kw <- kruskal.test(ADC_total_only$Total ~ ADC_total_only$Report.Quarter)
@@ -366,13 +377,17 @@ ggsave("QuarterlyADC_violinplot.jpg", ADC_quarter_plot, path = "../Output", heig
 
 ```
 
+sko discussion of test 1
+
 ## Test 2: Linear Model - Analysis
 
 Can total annual ADC be represented with a linear model?
 
 ```{r Test2_1, echo=TRUE}
 
-# assumptions for lm (independent observation, normal distribution, equal variances among groups) checked in Test 1. data is not normal, but group variances are equal. proceed with lm
+# assumptions for lm (independent observation, normal distribution, 
+#equal variances among groups) checked in Test 1. data is not normal, 
+#but group variances are equal. proceed with lm
 
 # create dates corresponding to year & quarter combination
 # Q1: Mar 31
@@ -381,7 +396,8 @@ Can total annual ADC be represented with a linear model?
 # Q4: Dec 31
 
 # create dataframe of month-date
-quarters_to_dates <- data.frame("Quarter" = as.factor(1:4), "Month.Date" = c('3-31', '6-30', '9-30', '12-31'))
+quarters_to_dates <- data.frame("Quarter" = as.factor(1:4), 
+          "Month.Date" = c('3-31', '6-30', '9-30', '12-31'))
 
 # create new dataframe with dates
 ADC_fulldate <- ADC_total_only %>% 
@@ -401,7 +417,9 @@ ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
 # create lm
 ADC_date_lm <- lm(data = ADC_fulldate, Total ~ Quarter.End.Date)
 ADC_date_lm # Total = 73.14*Quarter.End.Date - 190264.58
-summary(ADC_date_lm) # Adjusted R-squared:  0.4433 (date explains 44.33% of variation in total), p-value: 2.694e-13
+summary(ADC_date_lm) 
+# Adjusted R-squared:  0.4433 (date explains 44.33% of variation in total),
+#p-value: 2.694e-13
 
 # check normality of residuals
 par(mfrow=c(2,2))
@@ -426,6 +444,12 @@ print(ADC_fulldate_plot)
 # save figure
 ggsave("TotalADC_plot_calculatedmodel.jpg", ADC_fulldate_plot, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
 
+```
+
+sko discussion of test 2
+
+```{r Test2_3, echo=FALSE}
+
 # plot with loess smoother
 ADC_fulldate_plot_loess <- ggplot(ADC_fulldate, aes(x = Quarter.End.Date, y = Total)) +
   geom_point() + 
@@ -440,6 +464,8 @@ print(ADC_fulldate_plot_loess)
 ggsave("TotalADC_plot_loess.jpg", ADC_fulldate_plot_loess, path = "../Output", height = 4, width = 6, units = "in", dpi = 300)
 
 ```
+
+sko discussion of test 2_loess
 
 ## Test 3: Changepoint in Construction & Demolition - Analysis
 
@@ -456,7 +482,8 @@ CD_only <- ADC_data %>%
   unite('Quarter.End.Date', c(Report.Year, Month.Date), sep = "-") %>%
   select(-Report.Quarter)
 
-CD_only$Quarter.End.Date <- as.Date(CD_only$Quarter.End.Date, '%Y-%m-%d') # format column as date
+CD_only$Quarter.End.Date <- as.Date(CD_only$Quarter.End.Date, '%Y-%m-%d') 
+# format column as date
 
 # arrange data from oldest to newest
 CD_only <- CD_only %>% 
@@ -470,7 +497,8 @@ ggplot(CD_only, aes(x = Quarter.End.Date, y = Construction.and.Demolition.Waste)
   ggtitle("Construction & Demolition Quarterly Quantities")
 
 # check normality for C&D waste specifically
-shapiro.test(CD_only$Construction.and.Demolition.Waste) # p-value = 0.4028, inferring that the data is normal
+shapiro.test(CD_only$Construction.and.Demolition.Waste) 
+# p-value = 0.4028, inferring that the data is normal
 
 ggplot(CD_only) +
   geom_histogram(aes(x = Construction.and.Demolition.Waste)) + 
@@ -478,9 +506,11 @@ ggplot(CD_only) +
   ylab("Count") + 
   ggtitle("Count of Quarterly C&D Quantities")
 
-qqnorm(CD_only$Construction.and.Demolition.Waste); qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
+qqnorm(CD_only$Construction.and.Demolition.Waste);
+qqline(CD_only$Construction.and.Demolition.Waste) # matches 1:1 ratio pretty well
 
-# use Pettitt's test (nonparametric) to determine whether there is a shift in the central tendency of the time series. 
+# use Pettitt's test (nonparametric) to determine whether there is a shift 
+#in the central tendency of the time series. 
 pettitt.test(CD_only$Construction.and.Demolition.Waste) # change point at time 40
 
 # Run separate Mann-Kendall for each section
@@ -492,28 +522,30 @@ pettitt.test(CD_only$Construction.and.Demolition.Waste[41:80])
 # position 27, so 41+27 = change point at time 68
 
 # Run separate Mann-Kendall for new section
-mk.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = 0.9453, not likely a 3rd change point
+mk.test(CD_only$Construction.and.Demolition.Waste[69:80]) 
+# p-value = 0.9453, not likely a 3rd change point
 
 # Is there a third change point?
-pettitt.test(CD_only$Construction.and.Demolition.Waste[69:80]) # p-value = p-value = 1.261, no 3rd change point
+pettitt.test(CD_only$Construction.and.Demolition.Waste[69:80]) 
+# p-value = p-value = 1.261, no 3rd change point
 
 # years corresponding to changepoints
-changepoint1 <- CD_only$Quarter.End.Date[40] # between Q4 2007 & Q1 2008 = ~ 2008-02-14
-changepoint2 <- CD_only$Quarter.End.Date[68] # between Q4 2014 & Q1 2015 = ~ 2015-02-14
+changepoint1 <- CD_only$Quarter.End.Date[40] 
+# between Q4 2007 & Q1 2008 = ~ 2008-02-14
+changepoint2 <- CD_only$Quarter.End.Date[68] 
+# between Q4 2014 & Q1 2015 = ~ 2015-02-14
 
 ```
 
 ### Test 3: Result
 
-```{r Test3_2, echo=FALSE}
+```{r Test3_2, echo=FALSE, fig.height = 5, fig.width = 6.5}
 
 # Add vertical lines to the original graph to represent change points
 CD_plot_changepoints <- ggplot(CD_only, aes(x=Quarter.End.Date, y=Construction.and.Demolition.Waste)) +
   geom_point() +
   geom_vline(aes(xintercept=as.Date('2008-02-14')), linetype=2, colour="purple", size=1) +
   geom_vline(aes(xintercept=as.Date('2015-02-14')), linetype=4, colour="blue", size=1) + 
-  geom_text(x=as.Date('2010-1-1'), y=260000, label=stringr::str_wrap('changepoint1: Q4,2007-Q1,2008', 15), colour="purple", size=5) +
-  geom_text(x=as.Date('2017-1-1'), y=260000, label=stringr::str_wrap('changepoint2: Q4,2014-Q1,2015', 15), colour="blue", size=5) +
   xlab('') +
   ylab('Quarterly C&D Cover (U.S. Tons)') + 
   scale_y_continuous(labels = scales::comma) + 
@@ -524,6 +556,8 @@ print(CD_plot_changepoints)
 ggsave("CD_plot_changepoints.jpg", CD_plot_changepoints, path = "../Output", height = 4, width = 11, units = "in", dpi = 300)
 
 ```
+
+sko discussion of test 3
 
 \newpage
 
