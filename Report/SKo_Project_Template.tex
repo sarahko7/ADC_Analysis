@@ -143,7 +143,26 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Experimental overview. This section should be no longer than 250 words.
+Daily cover (DC) is the material, often soil, that is spread over
+garbage layers in a landfill. DC serves to reduce odor, slow
+infiltration by water, prevent garbage from being blown away, and deter
+pests like small mammals and birds. The state of California defines an
+alternative daily cover (ADC) as a material other than soil. This study
+uses the data from CalRecycle to investigate trends in state-wide use of
+alternative daily cover. When analyzing trends in reporting quarter,
+statistical tests found that quantities in each quarter are not
+significantly different from one another. In a second test, quarterly
+ADC quantities were modeled as a function of time - the linear model
+((Quarterly Quantity = 73.14*Date - 190264.58)) was a moderate fit,
+explaining \textasciitilde{}44\% of the variation. However, the Loess
+regression appears to be a much better fit visually. For construction \&
+demolition ADC specifically, tests detected 2 changepoints in the
+quantities over time - one around 2008-02-14, and another around
+2015-02-14. It is notable though that these changepoints do not seem to
+be represented strongly in the visual depiction of the data. Findings
+from this analysis can be used to help rule makers and policymakers make
+more informed decisions regarding circular economy standards and
+regulations.
 \end{abstract}
 
 \newpage
@@ -152,23 +171,126 @@ Experimental overview. This section should be no longer than 250 words.
 
 \newpage
 
+\newpage
+
 \listoftables 
+
+Table 1: Summary of Data Structure
+
+Table 2: Summary statistics of ADC, separated by type
+
+Table 3: Summary statistics of ADC, separated by year
 
 \newpage
 
 \listoffigures 
 
-\newpage
+Figure 1: 2017 Quantities of ADC, separated by type
 
-\textless{}Note: set up autoreferencing for figures and tables in your
-document\textgreater{}
+Figure 2: Quarterly quantities of ADC are grouped for each year. The
+data is displayed by ADC type
+
+Figure 3: Quantities of ADC are grouped by the reporting quarter. The
+report year is classified by color, and the ADC type is classified by
+icon shape
+
+Figure 4: Quantities of ADC are grouped by quarter. The height of the
+bar described the spread of the data, a the width of the bar describes
+the number of records at each quantity
+
+Figure 5: Quarterly quantities of ADC are plotted by time, and fit with
+the equation y = 73.14*time -190264.58
+
+Figure 6: Quarterly quantities of ADC are plotted by time, and fit with
+a Loess Regression
+
+Figure 7: Quarterly quantities of Construction \& Demolition ADC are
+plotted by time, and the 2 changepoints are marked with dotted lines
+
+\newpage
 
 \section{Research Question and
 Rationale}\label{research-question-and-rationale}
 
+As described by CalRecycle, alternative daily cover (ADC) is a cover
+other than `earthen' material that is spread over the active face of a
+municipal solid waste landfill at the end of each operating day. Certain
+regions in California can claim materials used for ADC as diverted from
+landfill, which is an important characteristic for certifications that
+are promoting circular economy concepts. As circular economy related
+rules and regulations change over time, the quantities of ADC may see
+changes as well. Construction \& demolition waste is of particular
+interest because of a particular constituent - gypsum wallboard. Under
+the anerobic decomposition of a landfill, this material forms hydrogen
+sulfide gas, which is not only highly toxic, but is also corrosive to
+the methane collection equipment used in landfills.
+
+This analysis has 3 main research questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  For all ADC types combined, is there a significant difference in the
+  quantity of ADC used in each reporting quarter?
+\item
+  For all ADC types combined, can the quarterly quantities be modeled as
+  a function of time?
+\item
+  For construction \& demolition ADC specifically, have there been
+  changepoints in the quantities over time?
+\end{enumerate}
+
+The first research question is an important component of understanding
+the trends of ADC over yearly seasons. This could signify an oversupply
+of ADC in a particular season (e.g.~green material may be more plentiful
+in the summer), or an undersupply of earthen material. The second
+research question would be helpful in making predictions of future use
+of ADC. If the model predicts that the use of ADC is growing, this could
+be due to the influence of policies surrounding landfill diversion
+standards. The third research question looks at C\&D ADC specifically -
+since this type of ADC is highly related to new and retrofit building
+construction, changepoints in this data could be related to trends in
+construction related sustainability standards. The dataset used to
+answer these questions is from the CalRecycle website - it includes
+quarterly information for ADC, split up by type. This allows for
+timeseries analyses, as well as analyses specific to certain waste
+types.
+
+References:
+
+\url{https://www.calrecycle.ca.gov/lgcentral/basics/adcbasic}
+
+\url{http://www.newmoa.org/solidwaste/projects/gypsum.cfm}
+
 \newpage
 
 \section{Dataset Information}\label{dataset-information}
+
+The data used for this analysis was taken from CalRecycle - the database
+of the California Department of Resources Recycling and Recovery. This
+department is a part of the California Environmental Protection Agency.
+For more information about CalRecycle, see the `About Us' section of the
+website: \url{https://www.calrecycle.ca.gov/AboutUs/}
+
+The specific data used for this analysis is found on the page `Statewide
+Alternative Daily Cover (ADC) by Material Type':
+\url{https://www2.calrecycle.ca.gov/LGCentral/DisposalReporting/Statewide/ADCByMaterialType}.
+To extract the information, the data was exported to excel, then saved
+as a CSV file. The data for this analysis was extracted on 2009-04-06
+(April 6, 2019).
+
+ADC quantities are classified by 10 material types: Ash, Auto Shredder
+Waste, Compost, Construction \& Demolition Waste, Contaminated Sediment,
+Green Material, Mixed, Other, Sludge, and Tires. A more detailed
+description of the data structure is found in Table 1. Classification of
+ADC into the full 10 categories was started in 1998. Prior to 1998, most
+of the ADC was categorized as `Other'. The oldest datapoint in this
+record is Q1, 1995. The newest datapoint is Q4, 2017.
+
+The quantities of ADC in this analysis are in units of U.S. tons, which
+is equivalent to 2000 lbs.
+
+Table 1: Summary of Data Structure
 
 \begin{table}[H]
 \centering
@@ -205,17 +327,24 @@ Total & Sum of the columns Ash:Sludge\\
 \end{tabular}
 \end{table}
 
-SKOTESTThis is the caption for the table Table 1: Summary of Data
-Structure
-
-SKOTESTreference the table in text: Table 1
-
 \newpage
 
 \section{Exploratory Data Analysis and
 Wrangling}\label{exploratory-data-analysis-and-wrangling}
 
 \subsection{Data Wrangling}\label{data-wrangling}
+
+The first part of wrangling the data was creating a dataset with only
+the years 1998-2017. The years before 1998 were removed because most of
+the ADC in that time was classified as `Other'. If this data were
+included in analyses considering ADC types, the data from these years
+would make this category appear artificially large.
+
+After reviewing the dataset, the second part of the wrangling process
+was to `tidy' the data. The function `gather' was used to rearrange the
+data under each type column into 2 new columns: ADC Type, and Quantity.
+This was done to facilitate visualization and statistical analyses
+later.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -315,6 +444,20 @@ Wrangling}\label{exploratory-data-analysis-and-wrangling}
 
 \subsection{Summary}\label{summary}
 
+The following code is used to generate summary information about the
+data. This provides a general sense of the range and spread of the data.
+The `group' and `summarize' functions were used to generate this
+information.
+
+Table 2 describes the summary statistics separated by type. Green
+material, construction \& demolition, and auto shredder waste are seen
+to dominate the means. The sd column shows that green material has a
+much larger spread in its data as compared to the other types.
+
+Table 3 describes the summary statistics separated by year. The mean
+quarterly quantities appear to peak between 2005-2008, and again in
+2011.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# generate summary data}
@@ -334,9 +477,10 @@ Wrangling}\label{exploratory-data-analysis-and-wrangling}
 \StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{, }
                                 \StringTok{"full_width = F"}\NormalTok{), }\DataTypeTok{latex_options=}\StringTok{"scale_down"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{row_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{bold =}\NormalTok{ T)}
-\NormalTok{ADC_summary_by_type_table}
 \end{Highlighting}
 \end{Shaded}
+
+Table 2: Summary statistics of ADC, separated by type
 
 \begin{table}[H]
 \centering
@@ -385,10 +529,11 @@ Tires & 6544.532 & 733.71 & 29842.28 & 5735.144 & 4353.135\\
   \StringTok{"Median Quarterly Quantity"}\NormalTok{)) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \KeywordTok{c}\NormalTok{(}\StringTok{"striped"}\NormalTok{, }\StringTok{"hover"}\NormalTok{, }\StringTok{"condensed"}\NormalTok{, }
                                 \StringTok{"full_width = F"}\NormalTok{), }\DataTypeTok{latex_options=}\StringTok{"scale_down"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{row_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{bold =}\NormalTok{ T) }
-\NormalTok{ADC_summary_by_year_table}
+\StringTok{  }\KeywordTok{row_spec}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DataTypeTok{bold =}\NormalTok{ T)}
 \end{Highlighting}
 \end{Shaded}
+
+Table 3: Summary statistics of ADC, separated by year
 
 \begin{table}[H]
 \centering
@@ -442,17 +587,41 @@ Tires & 6544.532 & 733.71 & 29842.28 & 5735.144 & 4353.135\\
 
 \subsection{Exploratory Graphs}\label{exploratory-graphs}
 
-\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs2-1.pdf}
+Various graph types were used to illustrate the data exploration. These
+make it easy to get a general sense of the values in this dataset.
 
-sko description graph1
+\includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs2-1.pdf}
+Figure 1: 2017 Quantities of ADC, separated by type
+
+The geom\_bar function was used to create Figure 1. This figure shows
+the 2017 ADC quantities per category. It is clear that waste categorized
+as compost, contaminated sediment, mixed, and tires makes up a very
+small part of the total ADC used.
 
 \includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs3-1.pdf}
+Figure 2: Quarterly quantities of ADC are grouped for each year. The
+data is displayed by ADC type
 
-sko description graph2
+The geom\_boxplot function was used to create Figure 2, which the
+grouping function allowing the figure to display the data by year. The
+plot was then faceted by ADC type to view the fluctuations of the
+different ADC types over time. Auto shredder waste, and construction \&
+demolition waste are seen to have experienced a gradual increase. The
+box plots illustrate the spread of the quarterly data within each year.
+Construction \& demolition waste, and green material are notable in that
+they have a few years with very large spreads - C\&D had large spreads
+in 2000 and 2010, and green material had large spreads from 1998-2005.
 
 \includegraphics{SKo_Project_Template_files/figure-latex/explore_graphs4-1.pdf}
+Figure 3: Quantities of ADC are grouped by the reporting quarter. The
+report year is classified by color, and the ADC type is classified by
+icon shape
 
-sko description graph 3
+gg\_plot was used to create Figure 3, which shows the quarterly
+quantities of ADC split up by quarter. The jitter function was used to
+prevent some overlap, allowing more of the points to be seen. The
+characteristics of ADC type and year were illustrated the shape and
+color of the point, respectively.
 
 \newpage
 
@@ -462,8 +631,42 @@ Visualization}\label{analysis-statistical-modeling-data-visualization}
 \subsection{Test 1: Difference Between Report Quarters -
 Analysis}\label{test-1-difference-between-report-quarters---analysis}
 
-Is there a significant difference in total ADC between report quarters?
-(i.e.~1, 2, 3, 4)
+To assess trends in ADC corresponding to the yearly seasons, statistical
+analysis was used to check for significant differences in total ADC
+between report quarters 1, 2, 3, and 4. Since this analysis is on total
+ADC, a new dataset was created that included data from years 1995-2017.
+The quantity analyzed was the total (i.e.~the sum of all the types, per
+year)
+
+The test performed was a one-way ANOVA. The assumptions of a one-way
+ANOVA are: 1) the observations are independent 2) the groups are
+normally distributed 3) the variances among the groups are equal
+
+Assumption 1 for independent observations cannot be checked from the
+dataset, and was assumed to be true.
+
+Assumption 2 for normal distribution was checked for each quarter using
+the Shapiro Wilks test. The H0 for this test is that of normality, and
+the p values for each of the groups was \textless{} 0.05 therefore these
+groups were deemed not normally distributed.
+
+A frequency polygon was used to view the distribution of each quarter,
+which showed the data to be left skewed. A Q-Q plot was also used to
+check normality, and found that the data does not match the 1:1 ratio
+well. In an attempt to fix the departure from normality, a ln
+transformation and an inverse transformation were used, but neither was
+successful in making the data match a normal distribution.
+
+Assumption 3 for homogeneity of variances was checked using the bartlett
+test. The H0 for this test is that the variance is equal among the
+groups. The p values were all \textgreater{} 0.05 therefore the
+variances were deemed equal.
+
+Since the data was deemed not normal, a Kruskal-Wallis, a non-parametric
+test, was used instead of the one-way ANOVA. The Dunn test, a post-hoc
+test, was also performed. The p values seen in the post-hoc test were
+all much greater than 0.05, therefore the means of these groups were
+found to not be significantly different from each other.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -683,13 +886,45 @@ Is there a significant difference in total ADC between report quarters?
 \subsubsection{Test 1: Result}\label{test-1-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test1_2-1.pdf}
+Figure 4: Quantities of ADC are grouped by quarter. The height of the
+bar described the spread of the data, a the width of the bar describes
+the number of records at each quantity
 
-sko discussion of test 1
+Figure 4 illustrates the numerical findings of the dunn test - that the
+means of the quarters are not significantly different from one another.
+The means of these groups is illustrated by the black horizonal lines,
+which visually appear to be at similar quantities.
 
 \subsection{Test 2: Linear Model -
 Analysis}\label{test-2-linear-model---analysis}
 
-Can total annual ADC be represented with a linear model?
+The next test is to create a linear model of the quarterly values over
+time, and plot the model over the data points to visualize the fit. If
+the model is a good fit, the equation could be used to predict future
+quantities of ADC. Since this model does not evaluate the ADC quantities
+split up by type, the analysis is on the data from years 1995-2017. The
+quantity analyzed was the total (i.e.~the sum of all the types, per
+quarter). To prepare this data for analysis, the quarter+year
+combinations were transformed into dates. The following dates were used
+for each quarter: Q1: Mar 31 Q2: Jun 30 Q3: Sep 30 Q4: Dec 31 These
+dates represent the end of each report quarter.
+
+The assumptions for using a linear model are the same as that of the
+one-way ANOVA: 1) the observations are independent 2) the groups are
+normally distributed 3) the variances among the groups are equal
+
+These were checked in Test 1. The data was not seen to be normal, but
+the group variances were found homogenous, so a lm is attempted.
+
+The model uses 1 dependent variable = quarterly quantity, and 1
+independent variable = time. The equation was found to be as follows:
+Quarterly quantity = 73.14*Date - 190264.58. This signifies that for a 1
+unit increase in the date, the model predicts there to be a 73.14 ton
+increase in the ADC quantity.
+
+The adjusted R-squared value was seen to be 0.4433, which means that the
+model explains 44.33\% of the variation. The p-value was found to be
+2.694e-13.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -795,18 +1030,61 @@ Can total annual ADC be represented with a linear model?
 \subsubsection{Test 2: Result}\label{test-2-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test2_2-1.pdf}
+Figure 5: Quarterly quantities of ADC are plotted by time, and fit with
+the equation y = 73.14*time -190264.58
 
-sko discussion of test 2
+Figure 5 shows the individual data points plotted over time, overlaid
+with the model represented by the line. The model does follow the same
+upward trend that the points show, but visually the model does not
+appear to be a good fit for the data. The points show a peak around 2006
+and level off after that, which is not represented in the model.
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test2_3-1.pdf}
+Figure 6: Quarterly quantities of ADC are plotted by time, and fit with
+a Loess Regression
 
-sko discussion of test 2\_loess
+Figure 6 shows the individual data points plotted over time, overlaid
+with a Loess regression. The Loess regression appears to be a much
+better fit to the data points visually. The model is represented by the
+blue line and the confidence interval of the model is represented by the
+gray area surrounding the line.
 
 \subsection{Test 3: Changepoint in Construction \& Demolition -
 Analysis}\label{test-3-changepoint-in-construction-demolition---analysis}
 
-Is there a changepoint in the Construction \& Demolition quantities over
-time?
+Test 3 assessed construction \& demolition ADC quantities over time,
+checking for changepoints in the data. Since this analysis is on
+type-specific ADC, only data from years 1998-2017 was used. The data was
+limited to only C\&D waste by using the select function.
+
+The determine the type of test that should be used, the following 2
+assumptions were evaluated: 1) the observations are independent 2) the
+groups are normally distributed
+
+Assumption 1 for independent observations cannot be checked from the
+dataset, and was assumed to be true.
+
+Assumption 2 for normal distribution was checked using the Shapiro Wilks
+test. The H0 for this test is that of normality, and the p value = 0.4,
+therefore this data set was deemed to be normally distributed.
+
+A histogram was used to view the distribution, which appears visually to
+have a normal distribution. A Q-Q plot was also used to check normality,
+and found that the data matches the 1:1 ratio well.
+
+Although the data was found to be normal, the non-parametric Pettitt
+test was used to determine a shift in the central tendancy of the time
+series, because the sample size is not very large. The Pettitt test
+found p = 3.2e-10, which is \textless{} 0.05. The change point was
+identified at time `40', which corresponds to a time between Q4 2007 \&
+Q1 2008 = \textasciitilde{} 2008-02-14.
+
+A separate Mann-Kendall was run for each section (before and after the
+change point). In the block of points after time `40', the corresponding
+p = 0.01308, which indicates that there is likely a second change point
+in that block. A Pettitt test was run on that chunk and found a second
+change point corresponding to a time between Q4 2014 \& Q1 2015 =
+\textasciitilde{} 2015-02-14.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1008,12 +1286,54 @@ time?
 \subsubsection{Test 3: Result}\label{test-3-result}
 
 \includegraphics{SKo_Project_Template_files/figure-latex/Test3_2-1.pdf}
+Figure 7: Quarterly quantities of Construction \& Demolition ADC are
+plotted by time, and the 2 changepoints are marked with dotted lines
 
-sko discussion of test 3
+Figure 7 shows the quarterly C\&D quantities plotted over time, with
+changepoints highlighted at \textasciitilde{} 2008-02-14 (in purple) and
+\textasciitilde{} 2015-02-14 (blue). There appears to be a changepoint
+at around 2002, but the statistical test did not detect a changepoint
+there. It is possible that is due to the sample size. Also, the
+changepoint detected at \textasciitilde{} 2015-02-14 (blue) does not
+seem to be represented by the data points. This may also be due to the
+small sample size, or could be influenced by the high quantity values
+seen around 2012.
 
 \newpage
 
 \section{Summary and Conclusions}\label{summary-and-conclusions}
+
+The analysis of the quantity of ADC used in each reporting quarter found
+that the means of the quarters are not significantly different from one
+another. This was found quantitatively via the dunn post-hoc test, but
+can also be seen visually from a violin plot. This lack of a quarterly
+trend infers that the supply of ADC (or of earthen material) is
+relatively constant across the year. This could be a nationwide trend,
+or a special effect from California's temperate climate allowing for
+relatively similar weather (and thus growing season) year-round.
+
+When attempting to model quarterly ADC quantities as a function of time
+the linear model was a moderate fit, explaining \textasciitilde{}44\% of
+the variation. Visually though, the model equation (Quarterly Quantity =
+73.14*Date - 190264.58) did not appear to be a good fit for the data
+points. The Loess regression was seen to provide a much better fit
+visually. For future studies, models beyond the y-mx+b equation would
+likely be better predictors of quantity of ADC over time.
+
+For construction \& demolition ADC specifically, there were 2
+changepoints in the quantities over time - one around 2008-02-14, and
+another around 2015-02-14. Literature research did not show an
+association of either of these dates with a major change in regulation
+surrounding landfill diversion standards, but there may be other policy
+factors influencing these findings. The trends in C\&D waste would be
+useful information to share with landfill operators to help them predict
+influxes in the production of hydrogen sulfide.
+
+From both the data exploration as well as the statistical analysis, it
+is clear that various trends exist in the use of ADC across the state of
+California. Analyses from this data can be used to influence policy
+makers on sustainability standards, and operate landfills more
+effectively.
 
 
 \end{document}
