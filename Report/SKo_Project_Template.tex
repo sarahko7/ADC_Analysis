@@ -149,11 +149,11 @@ infiltration by water, prevent garbage from being blown away, and deter
 pests like small mammals and birds. The state of California defines an
 alternative daily cover (ADC) as a material other than soil. This study
 uses the data from CalRecycle to investigate trends in state-wide use of
-alternative daily cover. When analyzing trends in reporting quarter,
+alternative daily cover. When analyzing trends in reporting quarters,
 statistical tests found that quantities in each quarter are not
 significantly different from one another. In a second test, quarterly
 ADC quantities were modeled as a function of time - the linear model
-((Quarterly Quantity = 73.14*Date - 190264.58)) was a moderate fit,
+(Quarterly Quantity = 73.14*Date - 190264.58) was a moderate fit,
 explaining \textasciitilde{}44\% of the variation. However, the Loess
 regression appears to be a much better fit visually. For construction \&
 demolition ADC specifically, tests detected 2 changepoints in the
@@ -161,7 +161,7 @@ quantities over time - one around 2008-02-14, and another around
 2015-02-14. It is notable though that these changepoints do not seem to
 be represented strongly in the visual depiction of the data. Findings
 from this analysis can be used to help rule makers and policymakers make
-more informed decisions regarding circular economy standards and
+more informed decisions regarding circular economy related standards and
 regulations.
 \end{abstract}
 
@@ -212,26 +212,27 @@ plotted by time, and the 2 changepoints are marked with dotted lines
 \section{Research Question and
 Rationale}\label{research-question-and-rationale}
 
-As described by CalRecycle, alternative daily cover (ADC) is a cover
-other than `earthen' material that is spread over the active face of a
-municipal solid waste landfill at the end of each operating day. Certain
-regions in California can claim materials used for ADC as diverted from
-landfill, which is an important characteristic for certifications that
-are promoting circular economy concepts. As circular economy related
-rules and regulations change over time, the quantities of ADC may see
-changes as well. Construction \& demolition waste is of particular
-interest because of a particular constituent - gypsum wallboard. Under
-the anerobic decomposition of a landfill, this material forms hydrogen
-sulfide gas, which is not only highly toxic, but is also corrosive to
-the methane collection equipment used in landfills.
+Alternative daily cover (ADC) is a cover other than `earthen' material
+that is spread over the active face of a municipal solid waste landfill
+at the end of each operating day. Certain regions in California can
+claim materials used for ADC as diverted from landfill\footnote{\url{https://www.calrecycle.ca.gov/lgcentral/basics/adcbasic}},
+which is an important characteristic for certifications that are
+promoting circular economy concepts. As circular economy related rules
+and regulations change over time, the quantities of ADC may see changes
+as well. Construction \& demolition (C\&D) ADC is of particular interest
+because of a particular constituent - gypsum wallboard. Under the
+anerobic decomposition conditions of a landfill, this material forms
+hydrogen sulfide gas\footnote{\url{http://www.newmoa.org/solidwaste/projects/gypsum.cfm}},
+which is not only highly toxic, but also corrosive to the methane
+collection equipment used in landfills.
 
 This analysis has 3 main research questions:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \item
-  For all ADC types combined, is there a significant difference in the
-  quantity of ADC used in each reporting quarter?
+  For all ADC types combined, is there a significant difference between
+  the quantities of ADC used in each reporting quarter?
 \item
   For all ADC types combined, can the quarterly quantities be modeled as
   a function of time?
@@ -256,12 +257,6 @@ quarterly information for ADC, split up by type. This allows for
 timeseries analyses, as well as analyses specific to certain waste
 types.
 
-References:
-
-\url{https://www.calrecycle.ca.gov/lgcentral/basics/adcbasic}
-
-\url{http://www.newmoa.org/solidwaste/projects/gypsum.cfm}
-
 \newpage
 
 \section{Dataset Information}\label{dataset-information}
@@ -270,14 +265,15 @@ The data used for this analysis was taken from CalRecycle - the database
 of the California Department of Resources Recycling and Recovery. This
 department is a part of the California Environmental Protection Agency.
 For more information about CalRecycle, see the `About Us' section of the
-website: \url{https://www.calrecycle.ca.gov/AboutUs/}
+website\footnote{\url{https://www.calrecycle.ca.gov/AboutUs/}\\
+  {[}4{]}:
+  \url{https://www2.calrecycle.ca.gov/LGCentral/DisposalReporting/Statewide/ADCByMaterialType}}.
 
 The specific data used for this analysis is found on the page `Statewide
-Alternative Daily Cover (ADC) by Material Type':
-\url{https://www2.calrecycle.ca.gov/LGCentral/DisposalReporting/Statewide/ADCByMaterialType}.
-To extract the information, the data was exported to excel, then saved
-as a CSV file. The data for this analysis was extracted on 2009-04-06
-(April 6, 2019).
+Alternative Daily Cover (ADC) by Material Type'{[}\^{}4{]}. To extract
+the information, the data was exported to excel, then saved as a CSV
+file. The data for this analysis was extracted on 2009-04-06 (April 6,
+2019).
 
 ADC quantities are classified by 10 material types: Ash, Auto Shredder
 Waste, Compost, Construction \& Demolition Waste, Contaminated Sediment,
